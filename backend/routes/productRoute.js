@@ -3,7 +3,7 @@ import { addproduct, allproduct, deleteproduct, singleproduct, updateproduct } f
 const router = express.Router()
 
 router.get("/allproduct",allproduct)
-router.get("/singleProduct",singleproduct)
+router.get("/singleProduct/:id",singleproduct)
 router.post("/addProduct",addproduct)
 router.put("/updateProduct",updateproduct)
 router.delete("/deleteProduct",deleteproduct)

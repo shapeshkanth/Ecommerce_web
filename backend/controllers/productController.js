@@ -9,11 +9,17 @@ export const allproduct =  async (req,res) =>{
     })
 }
 
- export const singleproduct = (req,res)=>{
-  console.log("single porduct")
+ export const singleproduct = async (req,res)=>{
+   const pro_id = req.params.id
+   const singleproduct = await product.findById(pro_id)
+  //console.log(req.params.id)
+  if(!singleproduct)
+  {
+    return res.json({success : false, message : "product not available"})
+  }
   return res.json({
     success:true,
-    message:"single producrt"
+    singleproduct
   })
  }
 
