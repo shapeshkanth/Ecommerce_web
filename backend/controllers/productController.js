@@ -44,11 +44,19 @@ export const allproduct =  async (req,res) =>{
 
  }
 
- export const deleteproduct = (req,res)=>{
+ export const deleteproduct = async (req,res)=>{
+    const pro_id = req.params.id
+    const deleteproduct = await product.findByIdAndDelete(pro_id)
+
+    if(!deleteproduct)
+    {
+        return res.json({success:false, message : "product not available"})
+    }
     console.log("product deleted")
     return res.json({
         success:true,
-        message:"Product deleted"
+        message:"Product deleted",
+        deleteproduct
     })
 
  }

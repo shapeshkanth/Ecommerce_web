@@ -6,7 +6,7 @@ router.get("/allproduct",allproduct)
 router.get("/singleProduct/:id",singleproduct)
 router.post("/addProduct",addproduct)
 router.put("/updateProduct",updateproduct)
-router.delete("/deleteProduct",deleteproduct)
+router.delete("/deleteProduct/:id",deleteproduct)
 
 
 export default router
