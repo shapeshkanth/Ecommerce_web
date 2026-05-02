@@ -35,11 +35,19 @@ export const allproduct =  async (req,res) =>{
 
  }
 
- export const updateproduct = (req,res)=>{
-    console.log("Product Updated")
+ export const updateproduct = async (req,res)=>{
+    const pro_id = req.params.id
+    const newproduct = req.body
+    const updateproduct = await product.findByIdAndUpdate(pro_id,newproduct,{new:true})
+    //console.log("Product Updated")
+    if(!updateproduct)
+    {
+        return res.json({success : false, message : "product not available"})
+    }
     return res.json({
         success:true,
-        message:"Product updated"
+        message:"Product updated",
+        updateproduct
     })
 
  }
@@ -52,7 +60,7 @@ export const allproduct =  async (req,res) =>{
     {
         return res.json({success:false, message : "product not available"})
     }
-    console.log("product deleted")
+   // console.log("product deleted")
     return res.json({
         success:true,
         message:"Product deleted",
