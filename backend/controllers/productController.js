@@ -1,9 +1,12 @@
-export const allproduct =  (req,res) =>{
-   console.log("All product")
-   return res.json({
-    success:true,
-    message:"get all producrt"
-})
+import product from "../models/productModel.js"
+
+export const allproduct =  async (req,res) =>{
+
+    const products = await procuct.find()
+    console.log("All product")
+    return res.json({
+    products
+    })
 }
 
  export const singleproduct = (req,res)=>{
@@ -14,11 +17,14 @@ export const allproduct =  (req,res) =>{
   })
  }
 
- export const addproduct = (req,res)=>{
-    console.log("Product added")
+ export const addproduct = async (req,res)=>{
+
+    const products = req.body
+    const addproduct = await product.create(products)
+    //console.log(products)
     return res.json({
         success:true,
-        message:"Product added"
+        message:"Product successfully added"
     })
 
  }

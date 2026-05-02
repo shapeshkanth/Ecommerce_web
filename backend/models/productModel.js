@@ -1,5 +1,5 @@
-import mongoose from "mongose"
-const productModel = new mongoose.schema({
+import mongoose from "mongoose"
+const productModel = new mongoose.Schema({
     name : {
         type : String,
         required : [true , "Please enter product name"]
@@ -61,7 +61,7 @@ const productModel = new mongoose.schema({
     ]
 
 },
-{timestamp : true}
+{timestamps : true}
 );
 
 export default mongoose.model("Product",productModel)
