@@ -1,21 +1,22 @@
+import ErrorHandler from "../helper/ErrorHandler.js"
 import product from "../models/productModel.js"
 
 export const allproduct =  async (req,res) =>{
 
     const products = await product.find()
-    console.log("All product")
+    //console.log("All product")
     return res.json({
     products
     })
 }
 
- export const singleproduct = async (req,res)=>{
+ export const singleproduct = async (req,res,next)=>{
    const pro_id = req.params.id
    const singleproduct = await product.findById(pro_id)
   //console.log(req.params.id)
   if(!singleproduct)
   {
-    return res.json({success : false, message : "product not available"})
+    return next(new ErrorHandler(404, "product not found"))
   }
   return res.json({
     success:true,
@@ -35,14 +36,14 @@ export const allproduct =  async (req,res) =>{
 
  }
 
- export const updateproduct = async (req,res)=>{
+ export const updateproduct = async (req,res,next)=>{
     const pro_id = req.params.id
     const newproduct = req.body
     const updateproduct = await product.findByIdAndUpdate(pro_id,newproduct,{new:true})
     //console.log("Product Updated")
     if(!updateproduct)
     {
-        return res.json({success : false, message : "product not available"})
+        return next(new ErrorHandler(404,"product not found"))
     }
     return res.json({
         success:true,
@@ -52,13 +53,13 @@ export const allproduct =  async (req,res) =>{
 
  }
 
- export const deleteproduct = async (req,res)=>{
+ export const deleteproduct = async (req,res,next)=>{
     const pro_id = req.params.id
     const deleteproduct = await product.findByIdAndDelete(pro_id)
 
     if(!deleteproduct)
     {
-        return res.json({success:false, message : "product not available"})
+        return next(new ErrorHandler(404,"product not found"))
     }
    // console.log("product deleted")
     return res.json({
