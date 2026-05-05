@@ -19,13 +19,20 @@ class ProductListing {
     filter(){
         
         const querystring = {...this.queryparams}
-        const removefields = ["keyword","page","limit"];
+        const removefields = ["keyword","page"];
 
         removefields.forEach((key)=> delete querystring[key])
-
         this.query = this.query.find(querystring)
         return this    
     }
+    
+    pagination(resultPerPage){
+      const currentPage = Number(this.queryparams.page) || 1 ;
+      const skip = resultPerPage*(currentPage-1);
+      this.query = this.query.limit(resultPerPage).skip(skip);
+      return this
+    }
+
 }
 
 export default ProductListing;

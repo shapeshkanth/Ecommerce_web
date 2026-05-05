@@ -2,15 +2,30 @@ import ErrorHandler from "../helper/ErrorHandler.js"
 import ProductListing from "../helper/ProductListing.js"
 import product from "../models/productModel.js"
 
-export const allproduct =  async (req,res) =>{
+export const allproduct =  async (req,res,next) =>{
     const params = req.query;
-
+    const perPage = 4
     const ProductList = new ProductListing(product.find(),params).search().filter()
 
+    const queryCopy = ProductList.query.clone()
+    const Totalproduct = await queryCopy.countDocuments()
+    const TotalPages = Math.ceil(Totalproduct/perPage)
+
+    const page = Number(req.query.page) || 1
+    
+    if(TotalPages <=0 || page < 0 || page > TotalPages )
+    {
+        return next(new ErrorHandler(404,"Page does not exist"))
+    }
+
+    ProductList.pagination(perPage)
     const products = await ProductList.query
+
     //console.log("All product")
     return res.json({
-    products
+        page,
+        TotalPages,
+        products
     })
 }
 
