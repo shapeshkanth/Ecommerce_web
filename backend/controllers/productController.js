@@ -5,7 +5,7 @@ import product from "../models/productModel.js"
 export const allproduct =  async (req,res) =>{
     const params = req.query;
 
-    const ProductList = new ProductListing(product.find(),params).search()
+    const ProductList = new ProductListing(product.find(),params).search().filter()
 
     const products = await ProductList.query
     //console.log("All product")

@@ -15,6 +15,17 @@ class ProductListing {
      this.query = this.query.find({...keyword})
      return this
     }
+
+    filter(){
+        
+        const querystring = {...this.queryparams}
+        const removefields = ["keyword","page","limit"];
+
+        removefields.forEach((key)=> delete querystring[key])
+
+        this.query = this.query.find(querystring)
+        return this    
+    }
 }
 
 export default ProductListing;
