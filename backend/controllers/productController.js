@@ -1,9 +1,13 @@
 import ErrorHandler from "../helper/ErrorHandler.js"
+import ProductListing from "../helper/ProductListing.js"
 import product from "../models/productModel.js"
 
 export const allproduct =  async (req,res) =>{
+    const params = req.query;
 
-    const products = await product.find()
+    const ProductList = new ProductListing(product.find(),params).search()
+
+    const products = await ProductList.query
     //console.log("All product")
     return res.json({
     products

@@ -1,6 +1,6 @@
 const errorHandle = (err,req,res,next) =>{
 
-    err.statuscode = err.statusCode || 500
+    err.statusCode = err.statusCode || 500
     err.message = err.message || "Internal server error"
 
 
