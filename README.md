@@ -6,3 +6,4 @@ MERN Stack
 ### npm i nodemon
 ### npm i dotenv
 ### npm i mongoose
+### npm i validator
