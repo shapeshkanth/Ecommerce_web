@@ -7,4 +7,5 @@ MERN Stack
 ### npm i dotenv
 ### npm i mongoose
 ### npm i validator
-### npn i bcryptjs
+### npm i bcryptjs
+### npm i jsonwebtoken

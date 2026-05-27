@@ -12,5 +12,6 @@ export const createUser = async (req,res)=>{
     },
     role : "admin"
  })
- return res.json({success : true, message : "user added",newUser})
+ const jwttoken = newUser.getjwtToken()
+ return res.json({success : true, message : "user added",newUser,jwttoken})
 }
