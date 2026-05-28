@@ -57,4 +57,8 @@ userModel.methods.getjwtToken= function (){
   return jwt.sign({id:"this._id"}, process.env.SECRET_KEY, {expiresIn : process.env.JWT_EXPIRE})
 };
 
-export default mongoose.model("User",userModel,)
+userModel.methods.verifyPassword = async function (userpassword){
+return await bcryptjs.compare(userpassword,this.password)
+}
+
+export default mongoose.model("User",userModel)
