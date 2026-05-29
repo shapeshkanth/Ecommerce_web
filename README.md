@@ -9,3 +9,4 @@ MERN Stack
 ### npm i validator
 ### npm i bcryptjs
 ### npm i jsonwebtoken
+### npm i cookie-parser
