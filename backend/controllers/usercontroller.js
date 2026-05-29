@@ -1,5 +1,6 @@
 import ErrorHandler from "../helper/ErrorHandler.js"
 import User from "../models/userModel.js"
+import { sendToken } from "../helper/jwtToken.js"
 export const createUser = async (req,res,next)=>{
  //console.log(req.body)
  const {name, email, password} = req.body
@@ -27,8 +28,7 @@ export const createUser = async (req,res,next)=>{
     },
     role : "admin"
  })
- const jwttoken = newUser.getjwtToken()
- return res.json({success : true, message : "user added",newUser,jwttoken})
+ sendToken(newUser,201,res)
 }
 
 export const userLogin = async (req,res,next)=>{
@@ -51,9 +51,6 @@ export const userLogin = async (req,res,next)=>{
    {
     return next(new ErrorHandler(401,"Invalid email or password"))
    }
-res.json({
-  success : true,
-  user
-})
+   sendToken(user,200,res);
 
 }
