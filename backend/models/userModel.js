@@ -54,7 +54,7 @@ userModel.pre("save", async function (next){
 });
 
 userModel.methods.getjwtToken= function (){
-  return jwt.sign({id:"this._id"}, process.env.SECRET_KEY, {expiresIn : process.env.JWT_EXPIRE})
+  return jwt.sign({id:this._id}, process.env.SECRET_KEY, {expiresIn : process.env.JWT_EXPIRE})
 };
 
 userModel.methods.verifyPassword = async function (userpassword){
