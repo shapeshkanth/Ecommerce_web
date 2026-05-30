@@ -15,3 +15,16 @@ export const verifytoken = async  (req,res,next)=>{
    req.user = await User.findById(decodeDate.id)
    next()
 }
+
+export const roleBasedAccess = (...roles)=>{
+
+    return (req,res,next)=>{
+         const role = req.user.role
+        if(!roles.includes(role))
+        {
+           return next(new ErrorHandler(403, `Role ${role} is not allowed to access this resource`))
+        }
+        next()
+    }
+
+}

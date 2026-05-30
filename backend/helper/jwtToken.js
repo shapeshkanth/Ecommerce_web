@@ -7,7 +7,7 @@ const jwttoken = user.getjwtToken()
 
  }).json({
     success : true,
-    user,
+     user,
    // jwttoken
 })
 }
