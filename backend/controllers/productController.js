@@ -44,7 +44,7 @@ export const allproduct =  async (req,res,next) =>{
  }
 
  export const addproduct = async (req,res)=>{
-
+    req.body.user = req.user.id 
     const products = req.body
     const addproduct = await product.create(products)
     //console.log(products)
