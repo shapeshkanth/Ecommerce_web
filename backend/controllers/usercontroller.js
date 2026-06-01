@@ -63,3 +63,23 @@ export const logout = (req,res)=>{
   res.status(200).json({success : true, meaage : "successfuly logged out"})
   
 }
+
+export const resetPassword = async (req,res,next)=>{
+const { email } = req.body
+//console.log(email)
+
+const user = await User.findOne({email})
+if(!user)
+{
+  return next(new ErrorHandler(400,"Invalid Email"))
+}
+let resettoken
+try {
+  resettoken = user.resetPassToken()
+  await user.save()
+  //console.log(resettoken)
+} catch (error) {
+  return next(new ErrorHandler(500,error))
+}
+
+}
