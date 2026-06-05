@@ -126,6 +126,8 @@ const subject = "Password Reset Request"
 
 try {
   await sendEmail({email:user.email,subject:subject,htmlMessage:messageHtml})
+  res.json({success:true,meaage:"Please check your mail"})
+  console.log(resetTkn)
 } catch (error) {
   user.resetPasswordToken = undefined
   user.resetPasswordExpire = undefined
@@ -134,4 +136,29 @@ try {
   return next(new ErrorHandler(500,"Email could not be send Try again"))
  
    }
+}
+
+export const resetPassword = async (req,res,next)=>{
+ const  resettoken = req.params.token
+ const { password, confirmpassword } = req.body
+ const resetPasswordToken = crypto.createHash("sha256").update(resettoken).digest("hex")
+//console.log(resetPasswordToken)
+  const user = await User.findOne({
+  resetPasswordToken,
+  resetPasswordExpire : {$gt:Date.now()}
+ })
+ if(!user)
+ {
+  return next(new ErrorHandler(400,"Invalid or Reset link expired"))
+ }
+
+ if(password!==confirmpassword)
+ {
+  return next(new ErrorHandler(401,"Password does not match"))
+ }
+  user.password = password
+  user.resetPasswordToken = undefined
+  user.resetPasswordExpire = undefined
+  await user.save()
+  sendToken(user,200,res);
 }
