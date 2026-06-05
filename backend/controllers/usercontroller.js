@@ -85,12 +85,47 @@ try {
 
 const resetPasswordURL = `${req.protocol}://${req.host}/reset/${resetTkn}`
 
-const textMessage = `Reset Password link ${resetPasswordURL}`
+//const textMessage = `Reset Password link ${resetPasswordURL}`
+const messageHtml = `<div style="max-width:600px;margin:auto;padding:20px;font-family:Arial,sans-serif;border:1px solid #ddd;border-radius:10px;">
+    
+    <h2 style="color:#333;text-align:center;">
+        Password Reset Request
+    </h2>
+
+    <p style="font-size:16px;color:#555;">
+        You requested to reset your password.
+    </p>
+
+    <div style="text-align:center;margin:30px 0;">
+        <a
+            href="${resetPasswordURL}"
+            style="
+                background:#007bff;
+                color:white;
+                padding:12px 24px;
+                text-decoration:none;
+                border-radius:5px;
+                display:inline-block;
+            "
+        >
+            Reset Password
+        </a>
+    </div>
+
+    <p style="color:#555;">
+        This link will expire in <strong>30 minutes</strong>.
+    </p>
+
+    <p style="color:#777;font-size:14px;">
+        If you did not request this, please ignore this email.
+    </p>
+
+</div>`
 //console.log(textMessage)
 const subject = "Password Reset Request"
 
 try {
-  await sendEmail({email:user.email,subject:subject,message:textMessage})
+  await sendEmail({email:user.email,subject:subject,htmlMessage:messageHtml})
 } catch (error) {
   user.resetPasswordToken = undefined
   user.resetPasswordExpire = undefined
