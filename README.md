@@ -11,3 +11,4 @@ MERN Stack
 ### npm i jsonwebtoken
 ### npm i cookie-parser
 ### npm i crypto
+### npm i nodemailer

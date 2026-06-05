@@ -1,6 +1,8 @@
 import ErrorHandler from "../helper/ErrorHandler.js"
 import User from "../models/userModel.js"
 import { sendToken } from "../helper/jwtToken.js"
+import { sendEmail } from "../helper/sendEmail.js"
+import crypto from "crypto"
 export const createUser = async (req,res,next)=>{
  //console.log(req.body)
  const {name, email, password} = req.body
@@ -64,22 +66,37 @@ export const logout = (req,res)=>{
   
 }
 
-export const resetPassword = async (req,res,next)=>{
+export const forgetPassword = async (req,res,next)=>{
 const { email } = req.body
-//console.log(email)
 
 const user = await User.findOne({email})
 if(!user)
 {
-  return next(new ErrorHandler(400,"Invalid Email"))
-}
-let resettoken
-try {
-  resettoken = user.resetPassToken()
-  await user.save()
-  //console.log(resettoken)
-} catch (error) {
-  return next(new ErrorHandler(500,error))
+  return next(new ErrorHandler(400,"Invalid email, Please enter valid email"))
 }
 
+let resetTkn
+try {
+  resetTkn = user.resetPassToken()
+  await user.save()
+} catch (error) {
+  return next(new ErrorHandler(500,"Please try again later"))
+}
+
+const resetPasswordURL = `${req.protocol}://${req.host}/reset/${resetTkn}`
+
+const textMessage = `Reset Password link ${resetPasswordURL}`
+//console.log(textMessage)
+const subject = "Password Reset Request"
+
+try {
+  await sendEmail({email:user.email,subject:subject,message:textMessage})
+} catch (error) {
+  user.resetPasswordToken = undefined
+  user.resetPasswordExpire = undefined
+  await user.save({validateBeforeSave : false})
+
+  return next(new ErrorHandler(500,"Email could not be send Try again"))
+ 
+   }
 }
