@@ -172,3 +172,12 @@ export const profile = async (req,res,next) =>{
     user
   })
 }
+export const updateProfile = async (req,res,next)=>{
+  const { name, email } = req.body
+  const updatefields = { name, email }
+  const user = await User.findByIdAndUpdate(req.user.id,updatefields,{new:true,runValidators:true})
+res.status(200).json({
+  success:true,
+  message:"profile details successfully updated"
+})
+}
