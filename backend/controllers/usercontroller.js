@@ -181,3 +181,20 @@ res.status(200).json({
   message:"profile details successfully updated"
 })
 }
+
+export const updatePassword = async (req,res,next)=>{
+  const {oldPassword,newPassword,confirmPassword} = req.body
+  const user = await User.findById(req.user.id).select("+password")
+  const isCorrect = await user.verifyPassword(oldPassword)
+  if(!isCorrect)
+  {
+    return next(new ErrorHandler(400,"Incorrect Old Password.."))
+  }
+if(newPassword!==confirmPassword)
+  {
+    return next(new ErrorHandler(400,"Please check new and confirm password"))
+  }
+  user.password = newPassword
+  await user.save()
+  sendToken(user,200,res);
+}
