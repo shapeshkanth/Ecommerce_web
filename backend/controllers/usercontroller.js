@@ -198,3 +198,12 @@ if(newPassword!==confirmPassword)
   await user.save()
   sendToken(user,200,res);
 }
+
+export const getAllUser = async (req,res)=>{
+  const user = await User.find()
+  res.status(200).json({
+    success:true,
+    user
+  })
+
+}
