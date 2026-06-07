@@ -207,3 +207,16 @@ export const getAllUser = async (req,res)=>{
   })
 
 }
+
+export const getSingleUser = async (req,res,next)=>{
+  const id = req.params.id
+  const user = await User.findById(id)
+  if(!user)
+  {
+    return next(new ErrorHandler(400,"user doesn't exist"))
+  }
+  res.status(200).json({
+    success:true,
+    user
+  })
+}
