@@ -234,3 +234,19 @@ export const deleteSingleUser = async (req,res,next)=>{
     message:"user deleted successfully"
   })
 }
+
+export const userRoleUpdate = async (req,res,next)=>{
+  const  { role } = req.body
+  const userRole = { role } 
+  const updateUserId = req.params.id
+  const user = await User.findByIdAndUpdate(updateUserId,userRole,{new:true})
+  if(!user)
+  {
+    return next(new ErrorHandler(400,"user doesn't exist"))
+  }
+  res.status(200).json({
+    success:true,
+    user
+  })
+
+}
