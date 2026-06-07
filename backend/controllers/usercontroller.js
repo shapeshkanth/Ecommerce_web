@@ -220,3 +220,17 @@ export const getSingleUser = async (req,res,next)=>{
     user
   })
 }
+
+export const deleteSingleUser = async (req,res,next)=>{
+  const id = req.params.id
+  const DeleteObject = await User.findById(id)
+  if(!DeleteObject)
+  {
+    return next(new ErrorHandler(400,"user doesn't exist"))
+  }
+  await User.findByIdAndDelete(id)
+  res.status(200).json({
+    success:true,
+    message:"user deleted successfully"
+  })
+}
