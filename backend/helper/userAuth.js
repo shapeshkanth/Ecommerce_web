@@ -10,9 +10,9 @@ export const verifytoken = async  (req,res,next)=>{
     return next(new ErrorHandler(401,"Please login to access this resource"))
    }
 
-   const decodeDate = jwt.verify(token,process.env.SECRET_KEY)
-   //console.log(decodeDate)
-   req.user = await User.findById(decodeDate.id)
+   const decodeData = jwt.verify(token,process.env.SECRET_KEY)
+   //console.log(decodeData)
+   req.user = await User.findById(decodeData.id)
    next()
 }
 

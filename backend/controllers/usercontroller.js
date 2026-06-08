@@ -1,5 +1,6 @@
 import ErrorHandler from "../helper/ErrorHandler.js"
 import User from "../models/userModel.js"
+import product from "../models/productModel.js"
 import { sendToken } from "../helper/jwtToken.js"
 import { sendEmail } from "../helper/sendEmail.js"
 import crypto from "crypto"
@@ -249,4 +250,53 @@ export const userRoleUpdate = async (req,res,next)=>{
     user
   })
 
+}
+
+export const userReview = async (req,res,next)=>{
+  const {rating,comment,productId} = req.body
+  const review = {
+   user:req.user._id,
+   name:req.user.name,
+   rating:Number(rating),
+   comment
+  }
+
+  const Product = await product.findById(productId)
+  
+  if(!Product)
+  {
+    return next(new ErrorHandler(400,"Product not found"))
+  }
+
+  const reviewExists = Product.reviews.find((review)=>review.user.toString() == req.user.id)
+ console.log(reviewExists);
+  
+  if(reviewExists)
+  {
+   Product.reviews.forEach((review)=>{
+    if(review.user.toString()===req.user.id)
+    {
+     review.rating=Number(rating),
+     review.comment=comment
+    }
+   })
+
+  }else{
+    Product.reviews.push(review)
+  }
+  //add total reviews
+  Product.numOfReviews = Product.reviews.length
+  //add average rating
+  let sum=0
+  Product.reviews.forEach((review)=>{
+    sum = sum + review.rating
+  })
+Product.rating = Product.reviews.length > 0 ? (sum/Product.reviews.length).toFixed(2) : 0
+
+await Product.save({validateBeforeSave:false})
+res.json({
+  success:true,
+  Product
+})
+ 
 }
