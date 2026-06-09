@@ -353,8 +353,6 @@ export const deleteUserReview = async (req,res,next)=>{
   const numOfReviews = reviews.length;
   const rating = reviews.length > 0 ? (sum/reviews.length).toFixed(2) : 0 
 
-  console.log(numOfReviews)
-  console.log(rating)
   await product.findByIdAndUpdate(productId,{
   reviews,
   rating,
