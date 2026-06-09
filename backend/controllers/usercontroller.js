@@ -317,3 +317,15 @@ export const viewUserReview = async (req,res,next)=>{
     reviews
   })
 }
+
+export const adminViewAllProduct = async (req,res,next)=>{
+  const Product = await product.find()
+  if(!Product)
+  {
+    return next(new ErrorHandler(400,"Product doesn't exits"))
+  }
+  res.json({
+    success :true,
+    Product
+  })
+}
