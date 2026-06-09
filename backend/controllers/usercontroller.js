@@ -329,3 +329,44 @@ export const adminViewAllProduct = async (req,res,next)=>{
     Product
   })
 }
+
+export const deleteUserReview = async (req,res,next)=>{
+  const productId = req.query.productID
+  const reviewId = req.query.reviewID
+  const Product = await product.findById(productId)
+
+  if(!Product)
+  {
+    return next(new ErrorHandler(400,"Product doesn't exist"))
+  }
+  if(!Product.reviews)
+  {
+    return next(new ErrorHandler(400,"reviews doesn't exist"))
+  }
+  const reviews = Product.reviews.filter((review) => review.id.toString() !== req.query.reviewID)
+  
+  let sum=0
+  reviews.forEach((review)=>{
+    sum=sum+review.rating
+  })
+
+  const numOfReviews = reviews.length;
+  const rating = reviews.length > 0 ? (sum/reviews.length).toFixed(2) : 0 
+
+  console.log(numOfReviews)
+  console.log(rating)
+  await product.findByIdAndUpdate(productId,{
+  reviews,
+  rating,
+  numOfReviews
+
+  },{
+ new:true,
+ runValidators:true
+  })
+res.json({
+  success:true,
+  message : "user rereview successfully deleted"
+})
+
+}
