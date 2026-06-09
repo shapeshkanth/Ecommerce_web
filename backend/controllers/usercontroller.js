@@ -255,7 +255,7 @@ export const userRoleUpdate = async (req,res,next)=>{
 export const userReview = async (req,res,next)=>{
   const {rating,comment,productId} = req.body
   const review = {
-   user:req.user._id,
+   user:req.user.id,
    name:req.user.name,
    rating:Number(rating),
    comment
@@ -269,7 +269,6 @@ export const userReview = async (req,res,next)=>{
   }
 
   const reviewExists = Product.reviews.find((review)=>review.user.toString() == req.user.id)
- console.log(reviewExists);
   
   if(reviewExists)
   {
@@ -299,4 +298,22 @@ res.json({
   Product
 })
  
+}
+
+export const viewUserReview = async (req,res,next)=>{
+  const id = req.params.id
+  const user = await product.findById(id)
+  if(!user)
+  {
+    return next(new ErrorHandler(400,"Product doesn't exist"))
+  }
+  if(!user.reviews)
+  {
+    return next(new ErrorHandler(400,"Review doesn't exist"))
+  }
+  const reviews = user.reviews
+  res.json({
+    success:true,
+    reviews
+  })
 }

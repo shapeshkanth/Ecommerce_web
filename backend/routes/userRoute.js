@@ -1,5 +1,5 @@
 import express from "express"
-import { createUser, logout, forgetPassword, userLogin, resetPassword, profile, updateProfile, updatePassword, getAllUser, getSingleUser, deleteSingleUser, userRoleUpdate, userReview } from "../controllers/usercontroller.js"
+import { createUser, logout, forgetPassword, userLogin, resetPassword, profile, updateProfile, updatePassword, getAllUser, getSingleUser, deleteSingleUser, userRoleUpdate, userReview, viewUserReview } from "../controllers/usercontroller.js"
 import { roleBasedAccess, verifytoken } from "../helper/userAuth.js"
 
 const router = express.Router()
@@ -17,4 +17,5 @@ router.get("/admin/singleUser/:id",verifytoken,roleBasedAccess("admin"),getSingl
 router.delete("/admin/deleteUser/:id",verifytoken,roleBasedAccess("admin"),deleteSingleUser)
 router.put("/admin/userRole/:id",verifytoken,roleBasedAccess("admin"),userRoleUpdate)
 router.put("/userReview",verifytoken,userReview)
+router.get("/admin/getUserReview/:id",verifytoken,roleBasedAccess("admin"),viewUserReview)
 export default router
