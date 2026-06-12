@@ -53,7 +53,7 @@ const orderModel = new mongoose.Schema({
 
         }
     ],
-    orderStatur:{
+    orderStatus:{
         type:String,
         required:true,
         default:"Processing"
@@ -64,45 +64,46 @@ const orderModel = new mongoose.Schema({
         required:true
     
     },
-    peymentInfo:{
+    paymentInfo:{ 
         id:{
             type:String,
             required:true
         },
         status:{
-            trype:String,
+            type:String,
             required:true
-        },
-        paidAt:{
-            type:Date,
-            required:true
-        },
-        price:{
-            trype:Number,
-            required:true,
-            default:0
-        },
-        tax:{
-            trype:Number,
-            required:true,
-            default:0
-        },
-        shippingPrice:{
-            trype:Number,
-            required:true,
-            default:0
-        },
-        TotalPrice:{
-            trype:Number,
-            required:true,
-            default:0
-        },
-        deliveryAt:Date,
-        createAt:{
-            type:Date,
-            default:Date.now()
         }
+    },
+    paidAt:{
+        type:Date,
+        required:true
+    },
+    price:{
+        type:Number,
+        required:true,
+        default:0
+    },
+    tax:{
+        type:Number,
+        required:true,
+        default:0
+    },
+    shippingPrice:{
+        type:Number,
+        required:true,
+        default:0
+    },
+    TotalPrice:{
+        type:Number,
+        required:true,
+        default:0
+    },
+    deliveryAt:Date,
+    createAt:{
+        type:Date,
+        default:Date.now()
     }
+
 
 })
 
