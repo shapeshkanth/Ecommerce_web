@@ -64,3 +64,23 @@ export const allOrders = async (req,res,next)=>{
         totalamount
     })
 }
+
+export const deleteOrder = async (req,res,next)=>{
+    const orderId = req.params.id
+    const order = await Order.findById(orderId)
+    if(!order)
+    {
+        return next(new ErrorHandler(400,"Orders not found"))
+    }
+    if(order.orderStatus!=="Delivered")
+    {
+        return next(new ErrorHandler(400,"This order is under processing and cannot be delete"))
+    }
+
+  await Order.deleteOne({_id:orderId})
+  res.json({
+        success:true,
+        message:"Order deleted successfully"
+    })
+
+}
