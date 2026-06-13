@@ -49,3 +49,18 @@ export const getAllOrders = async (req,res,next)=>{
         orders
     })
 }
+
+export const allOrders = async (req,res,next)=>{
+    const orders  = await Order.find().populate("user","name email")
+     if(!orders)
+    {
+        return next(new ErrorHandler(400,"Orders not found"))
+    }
+    let totalamount = 0
+    orders.forEach((order)=>totalamount += order.TotalPrice)
+    res.json({
+        success:true,
+        orders,
+        totalamount
+    })
+}
