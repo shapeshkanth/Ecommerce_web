@@ -26,7 +26,7 @@ res.status(201).json({
 }
 export const getOrderDetails = async (req,res,next)=>{
     const orderId = req.params.id
-    const order = await Order.findById(orderId)
+    const order = await Order.findById(orderId).populate("user","name email")
     if(!order)
     {
         return next(new ErrorHandler(400,"Order not found"))
