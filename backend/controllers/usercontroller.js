@@ -63,7 +63,7 @@ export const logout = (req,res)=>{
     expires : new Date(Date.now()),
     httpOnly : true
   })
-  res.status(200).json({success : true, meaage : "successfuly logged out"})
+  res.status(200).json({success : true, meaage : "successfully logged out"})
   
 }
 

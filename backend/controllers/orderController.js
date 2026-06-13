@@ -1,4 +1,6 @@
 import Order from "../models/orderModel.js"
+import ErrorHandler from "../helper/ErrorHandler.js"
+
 
 export const createOrder=async (req,res,next)=>{
 const {ShippingAddress,OrderItems,paymentInfo,price,tax,shippingPrice,TotalPrice} = req.body
@@ -21,4 +23,16 @@ res.status(201).json({
     message:"order created successfully",
     order
 })
+}
+export const getOrderDetails = async (req,res,next)=>{
+    const orderId = req.params.id
+    const order = await Order.findById(orderId)
+    if(!order)
+    {
+        return next(new ErrorHandler(400,"Order not found"))
+    }
+    res.json({
+        success:true,
+        order
+    })
 }
