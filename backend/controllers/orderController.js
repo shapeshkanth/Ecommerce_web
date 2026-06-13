@@ -36,3 +36,16 @@ export const getOrderDetails = async (req,res,next)=>{
         order
     })
 }
+
+export const getAllOrders = async (req,res,next)=>{
+    const UserId = req.user.id
+    const orders  = await Order.find({user:UserId})
+     if(!orders)
+    {
+        return next(new ErrorHandler(400,"Orders not found"))
+    }
+    res.json({
+        success:true,
+        orders
+    })
+}
