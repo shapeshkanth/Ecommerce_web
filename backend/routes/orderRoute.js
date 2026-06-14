@@ -1,5 +1,5 @@
 import express from "express"
-import { allOrders, createOrder, deleteOrder, getAllOrders, getOrderDetails } from "../controllers/orderController.js"
+import { allOrders, createOrder, deleteOrder, getAllOrders, getOrderDetails, updateOrder } from "../controllers/orderController.js"
 import { roleBasedAccess, verifytoken } from "../helper/userAuth.js"
 const router = express.Router()
 
@@ -9,6 +9,7 @@ router.get("/allOrder/user",verifytoken,getAllOrders)
 
 router.get("/admin/allOrders",verifytoken,roleBasedAccess("admin"),allOrders)
 router.delete("/admin/delete/:id",verifytoken,roleBasedAccess("admin"),deleteOrder)
+router.put("/admin/update/:id",verifytoken,roleBasedAccess("admin"),updateOrder)
 
 
 export default router

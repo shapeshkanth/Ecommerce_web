@@ -1,5 +1,7 @@
 import Order from "../models/orderModel.js"
+import Product from "../models/productModel.js"
 import ErrorHandler from "../helper/ErrorHandler.js"
+import { promises } from "fs"
 
 
 export const createOrder=async (req,res,next)=>{
@@ -83,4 +85,41 @@ export const deleteOrder = async (req,res,next)=>{
         message:"Order deleted successfully"
     })
 
+}
+
+export const updateOrder = async (req,res,next)=>{
+    const orderId = req.params.id
+    const order =await Order.findById(orderId)
+    if(!order)
+    {
+         return next(new ErrorHandler(400,"Orders not found"))
+    }
+    if(order.orderStatus==="Delivered")
+    {
+      return next(new ErrorHandler(400,"This order alredy Delivered"))
+    }
+   
+
+    order.orderStatus = req.body.status
+     if(order.orderStatus==="Delivered")
+    {
+        await Promise.all(order.OrderItems.map((item)=>stockUpdate(item.product,item.quantity)))
+        order.deliveryAt=Date.now();
+    }
+    await order.save({validateBeforeSave:false})
+    res.status(200).json({
+        success:true,
+        order
+    })
+}
+
+async function stockUpdate(ProductId,ProductQuantity) {
+    const product = await Product.findById(ProductId)
+    if(!product)
+    {
+        throw new Error("Product not found")
+    }
+
+    product.stock = product.stock - ProductQuantity
+    await product.save({validateBeforeSave:false})
 }
