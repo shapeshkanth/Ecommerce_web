@@ -1,6 +1,6 @@
 # Ecommerce_web
 MERN Stack
-## create frontend and backend folder
+## create backend folder
 ### npm init -y
 ### npm i express
 ### npm i nodemon
@@ -12,3 +12,8 @@ MERN Stack
 ### npm i cookie-parser
 ### npm i crypto
 ### npm i nodemailer
+
+# frontend
+### npm create vite@latest
+### npm install tailwindcss/vite
+### npm i react-router-dom
