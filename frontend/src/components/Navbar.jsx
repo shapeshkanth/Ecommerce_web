@@ -48,10 +48,10 @@ const Navbar = ()=>{
             </div>
             <div className={`md:hidden overflow:hidden transition-all duration-300 ease-in-out ${open ? "max-h-96 opacity-100 tanslate-y-0":"max-h-0 opacity-0 -translate-y-2"}`}>
                 <div className='flex flex-col p-4 gap-4'>
-                    <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Home</Link>
-                    <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Products</Link>
-                    <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">About-us</Link>
-                    <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Contact-us</Link>
+                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Home</Link>
+                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Products</Link>
+                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">About-us</Link>
+                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Contact-us</Link>
                 </div>
             </div>
             
