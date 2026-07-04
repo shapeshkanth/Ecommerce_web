@@ -1,3 +1,4 @@
+import Footer from "../components/Footer"
 import ImageSlider from "../components/ImageSlider"
 import Navbar from "../components/Navbar"
 const Home = ()=>{
@@ -6,6 +7,7 @@ const Home = ()=>{
         <Navbar/>
         <ImageSlider/>
         <div>home page</div>
+        <Footer/>
         </>
     
     )
