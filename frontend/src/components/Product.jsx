@@ -1,11 +1,14 @@
 import { Star } from "lucide-react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import Rating from "./Rating"
 
 const Product = ({product}) => {
+  const [rating, setRating] = useState(product.rating || 0)
   return (
   
     <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transform overflow-hidden border border-slate-100">
-        <Link to={`/product/${product._id}`} className="group block">
+        <Link to="/" className="group block">
         
         <div className="h-56 overflow-hidden">
            <img src={product.image[0].url} alt={product.name} className="h-full w-full object-cover group-hover:scale-105 transition" />
@@ -16,7 +19,7 @@ const Product = ({product}) => {
         </div>
         <div className="px-4 pb-4 space-y-2">
               <div className="flex items-center gap-2 text-gray-500 font-semibold">
-                  <Star size={20}></Star>
+                  <Rating value={rating} onRatingChange={(r)=>setRating(r)} />
                   <span className="text-xs">({product.numOfReviews} reviews)</span>
               </div>
           <div className="flex items-center justify-between px-2 mt-2">

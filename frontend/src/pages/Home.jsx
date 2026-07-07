@@ -24,7 +24,7 @@ const products = [
     name: "Premium Wireless Headphones",
     description: "High-quality wireless headphones with active noise cancellation, deep bass sound, and long battery life for an immersive audio experience.",
     price: 899,
-    rating: 4.6,
+    rating: 3,
     image: [
       {
         public_id: "products/phone_1",
@@ -40,7 +40,7 @@ const products = [
     name: "I phone",
     description: "Modern smartphone placed on stylish surface.",
     price: 199,
-    rating: 4.5,
+    rating: 2,
     image: [
       {
         public_id: "products/fashion_1",
@@ -56,7 +56,7 @@ const products = [
     name: "Laptop",
     description: "Modern laptop setup for productivity and development.",
     price: 799,
-    rating: 4.4,
+    rating: 3,
     image: [
       {
         public_id: "products/phone_2",
