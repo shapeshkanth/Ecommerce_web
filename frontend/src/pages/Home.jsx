@@ -1,6 +1,7 @@
 import Footer from "../components/Footer"
 import ImageSlider from "../components/ImageSlider"
 import Navbar from "../components/Navbar"
+import PageTitle from "../components/PageTitle";
 import Product from "../components/Product"
 
 const products = [
@@ -72,6 +73,7 @@ const products = [
 const Home = ()=>{
     return(
         <>
+        <PageTitle title={"Home"}/>
         <Navbar/>
         <ImageSlider/>
         <div className="mt-12 p-8 flex flex-col items-center justify-around text-gray-900">

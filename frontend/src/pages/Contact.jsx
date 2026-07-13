@@ -1,6 +1,12 @@
+import PageTitle from "../components/PageTitle"
+
 const Contact = ()=>{
     return(
-    <div>Contact page</div>
+    <>
+     <PageTitle title = {"Contact"}/>
+     <div>Contact page</div>
+    </>
+   
 )
     
 }

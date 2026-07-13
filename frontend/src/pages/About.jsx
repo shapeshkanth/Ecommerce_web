@@ -1,6 +1,11 @@
+import PageTitle from "../components/PageTitle"
+
 const About = ()=>{
-    return(
+    return(<>
+    <PageTitle title={"About"}/>
     <div>About Page</div>
+    </>
+    
 )
     
 }

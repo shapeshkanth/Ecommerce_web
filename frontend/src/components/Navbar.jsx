@@ -16,8 +16,8 @@ const Navbar = ()=>{
             <div className='hidden md:flex gap-5'>
                 <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Home</Link>
                 <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Products</Link>
-                <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">About-us</Link>
-                <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Contact-us</Link>  
+                <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/About">About-us</Link>
+                <Link className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/Contact">Contact-us</Link>  
             </div>
             
     
@@ -50,8 +50,8 @@ const Navbar = ()=>{
                 <div className='flex flex-col p-4 gap-4'>
                     <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Home</Link>
                     <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Products</Link>
-                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">About-us</Link>
-                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Contact-us</Link>
+                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/About">About-us</Link>
+                    <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/Contact">Contact-us</Link>
                 </div>
             </div>
             
