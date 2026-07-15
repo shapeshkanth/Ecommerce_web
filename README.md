@@ -17,3 +17,5 @@ MERN Stack
 ### npm create vite@latest
 ### npm install tailwindcss/vite
 ### npm i react-router-dom
+### npm i @reduxjs/toolkit react-redux
+### npm i axios

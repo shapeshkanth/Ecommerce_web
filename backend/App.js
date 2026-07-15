@@ -8,8 +8,8 @@ import cookie_parser from "cookie-parser"
 const app = express()
 app.use(express.json());
 app.use(cookie_parser())
-app.use("/productAPI/v1",product);
-app.use("/userAPI/v1",user);
-app.use("/orderAPI/v1",order)
+app.use("/api/v1",product);
+app.use("/api/v1",user);
+app.use("/api/v1",order)
 app.use(errorHandle)
 export default app
