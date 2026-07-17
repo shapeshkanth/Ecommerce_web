@@ -5,7 +5,9 @@ import Navbar from "../components/Navbar"
 import PageTitle from "../components/PageTitle";
 import Product from "../components/Product"
 import { useEffect } from "react";
-import { getProduct } from "../features/products/productSlice";
+import { getProduct, removeErrors } from "../features/products/productSlice";
+import Loding from "../components/Loding";
+import toast from "react-hot-toast"
 
 
 
@@ -16,7 +18,15 @@ const Home = ()=>{
   useEffect(()=>{
     dispatch(getProduct())
   },[dispatch])
+  useEffect(()=>{
+    if(error)
+    {
+      toast.error(error.message);
+      dispatch(removeErrors());
+    }
+  },[dispatch,error])
     return(
+      loading?( <Loding/> ):(
         <>
         <PageTitle title={"Home"}/>
         <Navbar/>
@@ -33,6 +43,7 @@ const Home = ()=>{
         </div>
         <Footer/>
         </>
+      )
     
     )
     

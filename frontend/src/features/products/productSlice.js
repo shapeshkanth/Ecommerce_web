@@ -25,7 +25,7 @@ const productSlice = createSlice({
    },
    extraReducers:(builder) =>{
        builder.addCase(getProduct.pending,(state)=>{
-            state.loading = true,
+            state.loading = false,
             state.error = null
        }).addCase(getProduct.fulfilled,(state,action)=>{
          console.log("Fullfilled action payload", action.payload)
