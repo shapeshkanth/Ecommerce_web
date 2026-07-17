@@ -8,7 +8,7 @@ const Product = ({product}) => {
   return (
   
     <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transform overflow-hidden border border-slate-100">
-        <Link to="/" className="group block">
+        <Link to={`/product/${product._id}`} className="group block">
         
         <div className="h-56 overflow-hidden">
            <img src={product.image[0].url} alt={product.name} className="h-full w-full object-cover group-hover:scale-105 transition" />

@@ -3,15 +3,17 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Register from './pages/Register';
+import ProductDetails from './pages/ProductDetails';
 
 const App = ()=>{
   return(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/About" element={<About/>}/>
-        <Route path="/Contact" element={<Contact/>}/>
-        <Route path="/Register" element={<Register/>}/> 
+        <Route path="/about" element={<About/>}/>
+        <Route path="/contact" element={<Contact/>}/>
+        <Route path="/register" element={<Register/>}/> 
+        <Route path="/product/:id" element={<ProductDetails/>}/>
       </Routes>
     </BrowserRouter>
     
