@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
-export const getProduct = createAsyncThunk("allproduct", async (payload,{ rejectWithValue })=>{
+export const getProduct = createAsyncThunk("product/getProduct", async (payload,{ rejectWithValue })=>{
     try {
         const link = "/api/v1/allproduct"
         const { data }= await axios.get(link)
@@ -11,10 +11,22 @@ export const getProduct = createAsyncThunk("allproduct", async (payload,{ reject
         return rejectWithValue(error.response?.data || "Something went wrong.")
     }
 })
+
+export const getProductDetails = createAsyncThunk("product/productDetails", async (id, {rejectWithValue})=>{
+try {
+    const link = `/api/v1/singleProduct/${id}`;
+    const { data } = await axios.get(link);
+    return data
+} catch (error) {
+    return rejectWithValue(error.response?.data || "Something went wrong")
+}
+})
+
 const productSlice = createSlice({
    name : "product",
    initialState:{
     products:[],
+    product:null,
     loading:false,
     error :null
    },
@@ -36,6 +48,18 @@ const productSlice = createSlice({
        }).addCase(getProduct.rejected, (state,action)=>{
            state.loading = false,
            state.error = action.payload || "Something went wrong.."
+       })
+
+       builder.addCase(getProductDetails.pending,(state)=>{
+          state.loding=true;
+          state.error = null;
+       }).addCase(getProductDetails.fulfilled,(state,action)=>{
+          state.loading = false;
+          state.error = null;
+          state.product = action.payload.singleproduct
+       }).addCase(getProductDetails.rejected,(state,action)=>{
+          state.loding=false;
+          state.error = action.payload || "Something went wrong.."
        })
    }
 }

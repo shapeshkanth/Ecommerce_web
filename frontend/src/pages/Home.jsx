@@ -6,7 +6,7 @@ import PageTitle from "../components/PageTitle";
 import Product from "../components/Product"
 import { useEffect } from "react";
 import { getProduct, removeErrors } from "../features/products/productSlice";
-import Loding from "../components/Loding";
+import Loading from "../components/Loading";
 import toast from "react-hot-toast"
 
 
@@ -26,7 +26,7 @@ const Home = ()=>{
     }
   },[dispatch,error])
     return(
-      loading?( <Loding/> ):(
+      loading?( <Loading/> ):(
         <>
         <PageTitle title={"Home"}/>
         <Navbar/>

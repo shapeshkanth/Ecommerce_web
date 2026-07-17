@@ -12,6 +12,10 @@ const productModel = new mongoose.Schema({
         type : Number,
         required : [true, "Please enter price"]
     },
+    mrp : {
+        type : Number,
+        required : [true, "Please enter mrp"]
+    },
     rating : {
         type : Number,
         default : 0
