@@ -257,6 +257,7 @@ export const userReview = async (req,res,next)=>{
   const review = {
    user:req.user.id,
    name:req.user.name,
+   avatar:req.user.avatar.url,
    rating:Number(rating),
    comment
   }

@@ -53,6 +53,9 @@ const productModel = new mongoose.Schema({
                 ref:"User",
                 required:true
             },
+            avatar:{
+                type:String
+            },
             name : {
                 type : String,
                 required : true
@@ -65,6 +68,10 @@ const productModel = new mongoose.Schema({
                 type : String,
                 required : true
 
+            },
+            createdAt:{
+                type:Date,
+                default:Date.now
             }
         }
     ],
