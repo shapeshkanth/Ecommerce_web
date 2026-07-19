@@ -3,18 +3,20 @@ import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import Rating from "../components/Rating"
 import { useSelector, useDispatch } from "react-redux"
-import { Minus, PackageCheck, PackageX, Plus, ShoppingCart } from "lucide-react"
+import { Calendar, MessageSquare, Minus, PackageCheck, PackageX, Plus, ShoppingCart } from "lucide-react"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 import { getProductDetails, removeErrors } from "../features/products/productSlice"
 import Loading from "../components/Loading"
 import toast from "react-hot-toast"
-import { calculateDiscount } from "../utils/formatter"
+import { calculateDiscount, formatDate } from "../utils/formatter"
+import { useState } from "react"
 
 
 const ProductDetails = () => {
     const dispatch = useDispatch();
     const {product, error, loading} = useSelector((state)=>state.product);
+    const {userRating,setUserRating} = useState(0)
     const { id } = useParams();
     useEffect(()=>{
         if(id)
@@ -84,10 +86,54 @@ const ProductDetails = () => {
                             </button>
                 </div>)}
              </div>
+             <form className="bg-slate-100 p-6 rounded-2xl border border-slate-100">
+                <h3 className="flex items-center gap-2 text-md font-bold mb-4 text-slate-800 uppercase tracking-tight ">
+                    <MessageSquare size={19} className="text-blue-500"/>
+                    Share your feedback
+                </h3>
+                <div className="mb-4">
+                    <Rating value={0} disabled={false} onRatingChange={(r)=>setUserRating(r)}/>
+                </div>
+                <textarea placeholder="How was the product quality and delivery.." className="w-full p-4 border-2 border-white focus:border-amber-300 focus-ring-0 outline-none min-h-24 text-sm bg-slate-50 rounded-xl shadow-sm transition-all"></textarea>
+                <button className="nt-4 w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg shadow-slate-200">Post Review</button>
+
+             </form>
             </div>
         
-           
         </div>
+
+        <section className="mt-20">
+            <div>
+                <h3 className="text-2xl font-bold text-gray-900 border-l-4 border-amber-500 pl-4">
+                Customer Feedbacks
+                </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 mt-2 ">
+            {product?.reviews.map((review,index)=>(
+                <div key={index} className="bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:border-amber-100 transition-colors group">
+                    <div className="flex justify-between items-start mb-6">
+                        <div className="flex items-center gap-4">
+                                <div className="w-14 h-14 rounded-full overflow-hidden ring-4 ring-gray-50 group-hover:ring-amber-50 transition-all">
+                                    <img src={review?.avatar} alt={review?.name}  className="h-full w-full  object-cover"/>
+                                </div>
+                             <div>
+                                <h4 className="font-bold text-gray-900 text-lg">{review?.name}</h4>
+                                    <div className="mt-1">
+                                    <Rating value={review?.rating} disabled={true}/>
+                                    </div>
+                             </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs font-bold px-3 py-2 bg-gray-100 rounded-full border border-gray-100">
+                                <Calendar size={18} className="text-gray-500"/>
+                                 {formatDate(review?.createdAt)}
+                        </div>
+                    </div>                 
+             
+                <p>"{review?.comment}"</p>
+            </div>
+            ))}
+            </div>
+        </section>
         </main>
         <Footer/>
 
