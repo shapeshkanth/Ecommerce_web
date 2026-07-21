@@ -26,6 +26,7 @@ const productSlice = createSlice({
    name : "product",
    initialState:{
     products:[],
+    Totalproduct:null,
     product:null,
     loading:false,
     error :null
@@ -44,6 +45,7 @@ const productSlice = createSlice({
             state.loading = false,
             state.error = null,
             state.products = action.payload.products
+            state.Totalproduct = action.payload.Totalproduct
          
        }).addCase(getProduct.rejected, (state,action)=>{
            state.loading = false,

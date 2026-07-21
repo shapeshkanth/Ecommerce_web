@@ -4,7 +4,7 @@ import product from "../models/productModel.js"
 
 export const allproduct =  async (req,res,next) =>{
     const params = req.query;
-    const perPage = 4
+    const perPage = 6
     const ProductList = new ProductListing(product.find(),params).search().filter()
 
     const queryCopy = ProductList.query.clone()
@@ -25,8 +25,11 @@ export const allproduct =  async (req,res,next) =>{
     return res.json({
         page,
         TotalPages,
-        products
+        products,
+        Totalproduct,
+        perPage,
     })
+   
 }
 
  export const singleproduct = async (req,res,next)=>{

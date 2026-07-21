@@ -1,7 +1,7 @@
 import { Star } from "lucide-react"
 import { useEffect, useState } from "react"
 
-const Rating = ({value=0, onRatingChange, disabled=false, showValue = true}) => {
+const Rating = ({value=0, onRatingChange, disabled=true, showValue = true}) => {
   const [hover, setHover] = useState(0)
   const [rating, setRating] = useState(value)
 
