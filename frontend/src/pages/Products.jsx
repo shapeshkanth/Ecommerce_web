@@ -3,34 +3,40 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import PageTitle from '../components/PageTitle'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProduct } from '../features/products/productSlice'
+import { getProduct, removeErrors } from '../features/products/productSlice'
 import toast from 'react-hot-toast'
 import Loading from '../components/Loading'
 import Product from '../components/Product'
 import { Pagination } from '../components/Pagination'
+import { useSearchParams } from 'react-router-dom'
 
 export const Products = () => {
  const dispatch = useDispatch()
  const [Heading, setHeading] = useState("All Product")
  const {products, loading, error,Totalproduct } = useSelector((state)=>state.product)
+ const [searchParams] = useSearchParams()
+ const keyword = searchParams.get("keyword") || ""
+
+
  useEffect(()=>{
-    dispatch(getProduct())
- },[dispatch]);
+    dispatch(getProduct({keyword}))
+ },[dispatch,keyword]);
 
  useEffect(()=>{
     if(error)
     {
         toast.error(error.message);
-        dispatch(reportError())
+        dispatch(removeErrors())
     }
  },[dispatch,error])
+
   return loading? (<Loading/>): (
     <>
     <div className='flex flex-col min-h-screen bg-gray-50'>
         <PageTitle title={"Products"}/>
         <Navbar/>
         <main className='grow  container mx-auto px-4 py-8'>
-            <div className='flex flex-col md:flex-row '>
+            <div className='flex flex-col md:flex-row gap-3'>
                 <aside className='w-full md:w-1/4'>
                     <div className='bg-white p-6 mr-5 rounded-lg shadow-sm sticky top-24'>
                         <h3 className='text-xl font-bold mb-4 text-gray-800 border-b border-slate-200 pb-2'>Categories</h3>
@@ -44,7 +50,7 @@ export const Products = () => {
                         
                     </div>
                 </aside>
-                <section className='w-full md:w-3/4'>
+                <section className='bg-white p-4 rounded w-full md:w-3/4'>
                     <div className='flex justify-between items-center mb-6'>
                         <h3 className='text-xl font-semibold mb-4 text-gray-800 border-b border-slate-200 pb-2'>{Heading}</h3>
                         <span className="text-gray-500 text-sm">{Totalproduct || 0} items found</span>

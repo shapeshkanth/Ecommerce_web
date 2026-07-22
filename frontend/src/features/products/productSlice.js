@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
-export const getProduct = createAsyncThunk("product/getProduct", async (payload,{ rejectWithValue })=>{
+export const getProduct = createAsyncThunk("product/getProduct", async ({keyword,page=1},{ rejectWithValue })=>{
     try {
-        const link = "/api/v1/allproduct"
+        const link = keyword? `/api/v1/allproduct?keyword=${encodeURIComponent(keyword)}&page=${page}` : `/api/v1/allproduct?page=${page}`
         const { data }= await axios.get(link)
         return data
 

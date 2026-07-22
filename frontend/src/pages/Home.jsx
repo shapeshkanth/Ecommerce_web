@@ -13,10 +13,10 @@ import toast from "react-hot-toast"
 
 const Home = ()=>{
 
-   const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const {products,loading,error} = useSelector((state)=>state.product)
   useEffect(()=>{
-    dispatch(getProduct())
+    dispatch(getProduct({keyword:""}))
   },[dispatch])
   useEffect(()=>{
     if(error)

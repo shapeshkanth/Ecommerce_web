@@ -1,9 +1,21 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Search, ShoppingBag, ShoppingCart, User, X, Menu } from 'lucide-react'
 import { useState } from 'react'
 const Navbar = ()=>{
     const [open, setOpen] = useState(false)
     const isAuthenticated = true ;
+    const [searchQuery, setSearchQuery]=useState("")
+    const navigate = useNavigate()
+    const handleSearch = (e)=>{
+         e.preventDefault();
+       if(searchQuery.trim())
+       {
+          navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`)
+       }else{
+           navigate("/products");
+       }
+       setSearchQuery("")
+    }
     return(
         <nav className='sticky top-0 w-full bg-white shadow-md z-50' >
             <div className='flex items-center max-w-7xl mx-auto px-4 bg-green-100 h-16 justify-between'>
@@ -22,9 +34,9 @@ const Navbar = ()=>{
             
     
             <div className='flex items-center gap-4'>
-                <form className='hidden sm:flex border border-slate-300 rounded-md'>
-                    <input className='px-3 py-1 text-sm w-40 focus:outline-none' type='text' placeholder='Search product..'/>
-                    <button className='px-3 text-gray-500 hover:text-blue-600 transition'>
+                <form onSubmit={handleSearch} className='hidden sm:flex border border-slate-300 rounded-md'>
+                    <input className='px-3 py-1 text-sm w-40 focus:outline-none' type='text' placeholder='Search product..' value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)}/>
+                    <button type='submit' className='px-3 text-gray-500 hover:text-blue-600 transition'>
                         <Search size={18}/>
                     </button>
                 </form>
