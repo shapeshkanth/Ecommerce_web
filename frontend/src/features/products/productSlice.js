@@ -28,6 +28,8 @@ const productSlice = createSlice({
     products:[],
     Totalproduct:null,
     product:null,
+    perPage:4,
+    TotalPages:0,
     loading:false,
     error :null
    },
@@ -46,9 +48,12 @@ const productSlice = createSlice({
             state.error = null,
             state.products = action.payload.products
             state.Totalproduct = action.payload.Totalproduct
+            state.TotalPages = action.payload.TotalPages
+            state.perPage = action.payload.perPage
          
        }).addCase(getProduct.rejected, (state,action)=>{
            state.loading = false,
+           state.products = []
            state.error = action.payload || "Something went wrong.."
        })
 

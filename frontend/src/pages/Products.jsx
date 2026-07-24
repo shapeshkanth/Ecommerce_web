@@ -8,19 +8,40 @@ import toast from 'react-hot-toast'
 import Loading from '../components/Loading'
 import Product from '../components/Product'
 import { Pagination } from '../components/Pagination'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams,useNavigate } from 'react-router-dom'
 
 export const Products = () => {
  const dispatch = useDispatch()
  const [Heading, setHeading] = useState("All Product")
- const {products, loading, error,Totalproduct } = useSelector((state)=>state.product)
+ const {products, loading, error,Totalproduct, perPage,TotalPages } = useSelector((state)=>state.product)
  const [searchParams] = useSearchParams()
  const keyword = searchParams.get("keyword") || ""
+ const pageNumberFromURL = parseInt(searchParams.get("page"),10) || 1;
+ const [currentPage,setCurrentPage] = useState(pageNumberFromURL);
+ const totalPages = Math.ceil(Totalproduct/(perPage || 4))
+ const navigate = useNavigate();
+const handlePageChange = (pageNumber)=>{
+ if(pageNumber!==currentPage)
+ {
+      setCurrentPage(pageNumber)
+      const newSearchParams = new URLSearchParams(location.search)
+     if(pageNumber==1)
+     {
+        newSearchParams.delete("page")
+     }else{
+        newSearchParams.set("page", pageNumber)
+     }
+     navigate(`?${newSearchParams.toString()}`)
+
+ }
+
+
+}
 
 
  useEffect(()=>{
-    dispatch(getProduct({keyword}))
- },[dispatch,keyword]);
+    dispatch(getProduct({keyword, page:currentPage}))
+ },[dispatch,keyword,currentPage]);
 
  useEffect(()=>{
     if(error)
@@ -53,7 +74,7 @@ export const Products = () => {
                 <section className='bg-white p-4 rounded w-full md:w-3/4'>
                     <div className='flex justify-between items-center mb-6'>
                         <h3 className='text-xl font-semibold mb-4 text-gray-800 border-b border-slate-200 pb-2'>{Heading}</h3>
-                        <span className="text-gray-500 text-sm">{Totalproduct || 0} items found</span>
+                        <span className="text-gray-500 text-sm">{products?.length || 0} items found</span>
                     </div>
 
                    
@@ -68,7 +89,7 @@ export const Products = () => {
                 </section>              
             </div>
             <div className='mt-12 flex justify-center'>
-                    <Pagination/>
+                    <Pagination currentPage={currentPage} onPageChange={handlePageChange}/>
             </div>
         </main>
         <Footer/>
