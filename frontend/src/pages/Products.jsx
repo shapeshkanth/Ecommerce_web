@@ -17,6 +17,9 @@ export const Products = () => {
  const [searchParams] = useSearchParams()
  const keyword = searchParams.get("keyword") || ""
  const pageNumberFromURL = parseInt(searchParams.get("page"),10) || 1;
+
+ const category = searchParams.get("category") || ""
+
  const [currentPage,setCurrentPage] = useState(pageNumberFromURL);
  const totalPages = Math.ceil(Totalproduct/(perPage || 4))
  const navigate = useNavigate();
@@ -35,13 +38,25 @@ const handlePageChange = (pageNumber)=>{
 
  }
 
+}
 
+const handleCategory = (cat)=>{
+const newSearchParams = new URLSearchParams(location.search);
+setCurrentPage(1)
+newSearchParams.delete("page");
+if(cat=="All products")
+{
+    newSearchParams.delete("category");
+}else{
+   newSearchParams.set("category",cat);
+}
+navigate(`?${newSearchParams.toString()}`)
 }
 
 
  useEffect(()=>{
-    dispatch(getProduct({keyword, page:currentPage}))
- },[dispatch,keyword,currentPage]);
+    dispatch(getProduct({keyword, page:currentPage,category}))
+ },[dispatch,keyword,currentPage,category]);
 
  useEffect(()=>{
     if(error)
@@ -62,16 +77,16 @@ const handlePageChange = (pageNumber)=>{
                     <div className='bg-white p-6 mr-5 rounded-lg shadow-sm sticky top-24'>
                         <h3 className='text-xl font-bold mb-4 text-gray-800 border-b border-slate-200 pb-2'>Categories</h3>
                         <ul className='space-y-2'>
-                            {["Electrinics", "Fashion", "Home Decor", "Books"].map((categorie,index)=>(
+                            {["All products","Electronics", "Sports", "Dress", "Clothing", "Kitchen Tools"].map((cat,index)=>(
                                 <li key={index}>
-                                    <button className='text-gray-600 hover:text-blue-600 transition-colors font-semibold' onClick={()=>setHeading(categorie)} >{categorie}</button>
+                                    <button className='text-gray-600 hover:text-blue-600 transition-colors font-semibold' onClick={()=>{setHeading(cat); handleCategory(cat)}} >{cat}</button>
                                 </li>
                             ))}
                         </ul>
                         
                     </div>
                 </aside>
-                <section className='bg-white p-4 rounded w-full md:w-3/4'>
+                <section className='bg-white p-4 bg-white p-6 mr-5 rounded-lg shadow-sm w-full md:w-3/4'>
                     <div className='flex justify-between items-center mb-6'>
                         <h3 className='text-xl font-semibold mb-4 text-gray-800 border-b border-slate-200 pb-2'>{Heading}</h3>
                         <span className="text-gray-500 text-sm">{products?.length || 0} items found</span>
