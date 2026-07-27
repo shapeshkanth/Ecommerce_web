@@ -44,6 +44,7 @@ const handleCategory = (cat)=>{
 const newSearchParams = new URLSearchParams(location.search);
 setCurrentPage(1)
 newSearchParams.delete("page");
+newSearchParams.delete("keyword")
 if(cat=="All products")
 {
     newSearchParams.delete("category");
