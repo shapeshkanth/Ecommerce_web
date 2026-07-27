@@ -3,7 +3,7 @@ import { Search, ShoppingBag, ShoppingCart, User, X, Menu } from 'lucide-react'
 import { useState } from 'react'
 const Navbar = ()=>{
     const [open, setOpen] = useState(false)
-    const isAuthenticated = true ;
+    const isAuthenticated = false ;
     const [searchQuery, setSearchQuery]=useState("")
     const navigate = useNavigate()
     const handleSearch = (e)=>{
@@ -45,7 +45,7 @@ const Navbar = ()=>{
                 <span className='absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-4 h-4 rounded-full flex items-center justify-center'>6</span>
                 </Link>
                 
-                {!isAuthenticated && (<Link className='hidden sm:flex gap-1 items-center bg-blue-500 text-white py-1 px-2 rounded-lg hover:bg-blue-600 transition'>
+                {!isAuthenticated && (<Link to='/register' className='hidden sm:flex gap-1 items-center bg-blue-500 text-white py-1 px-2 rounded-lg hover:bg-blue-600 transition'>
                                         <User size={19}/>
                                         Register
                                     </Link>
