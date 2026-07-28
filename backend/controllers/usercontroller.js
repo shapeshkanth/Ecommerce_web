@@ -28,8 +28,7 @@ export const createUser = async (req,res,next)=>{
     avatar :{
          public_id :"temp_id" ,
          url : "temp_url"
-    },
-    role : "admin"
+    }
  })
  sendToken(newUser,201,res)
 }

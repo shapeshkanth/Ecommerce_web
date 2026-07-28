@@ -12,6 +12,8 @@ MERN Stack
 ### npm i cookie-parser
 ### npm i crypto
 ### npm i nodemailer
+### npm i express-fileupload
+### npm audit fix
 
 # frontend
 ### npm create vite@latest
