@@ -3,10 +3,12 @@ import User from "../models/userModel.js"
 import product from "../models/productModel.js"
 import { sendToken } from "../helper/jwtToken.js"
 import { sendEmail } from "../helper/sendEmail.js"
+import { v2 as cloudinary} from "cloudinary"
 import crypto from "crypto"
 export const createUser = async (req,res,next)=>{
  //console.log(req.body)
- const {name, email, password} = req.body
+ const {name, email, password,avatar} = req.body
+
  if(!name)
  {
    return next(new ErrorHandler(400,"User name can't be empty"));
@@ -21,13 +23,19 @@ export const createUser = async (req,res,next)=>{
  }
 
 
+ const myCloud = await cloudinary.uploader.upload(avatar,{
+  folder:"avatars",
+  width:150,
+  crop:"scale"
+ })
+
  const newUser = await User.create({
     name,
     email,
     password,
     avatar :{
-         public_id :"temp_id" ,
-         url : "temp_url"
+         public_id :myCloud.public_id ,
+         url : myCloud.secure_url
     }
  })
  sendToken(newUser,201,res)
