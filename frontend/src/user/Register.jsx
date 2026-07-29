@@ -80,7 +80,7 @@ const Register = ()=>{
                     <p className="text-sm text-gray-500 mt-2">join us and start your journey</p>
                 </div>
                 <div className="space-y-1">
-                    <label className="text-sm font-medium text-gray-700 ml-1 block">User</label>
+                    <label className="text-sm font-medium text-gray-700 ml-1 block">Username</label>
                     <input placeholder="jone" type="name" value={name} name="name" onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"/>
                 </div>
                 <div className="space-y-1">
