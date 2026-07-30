@@ -1,6 +1,11 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 
 const Login = () => {
+  
+  const [email,setEmail]=useState("")
+  const [password,setPassword]=useState("")
+
   return (
      <div className="bg-gray-50 flex items-center justify-center min-h-screen">
         <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl">
@@ -11,11 +16,11 @@ const Login = () => {
                 </div>
                 <div className="space-y-1">
                     <label className="text-sm font-medium text-gray-700 ml-1 block">Email</label>
-                    <input placeholder="hello@example.com" type="email" name="email" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" />
+                    <input placeholder="hello@example.com" type="email" name="email" value={email} onChange={(e)=>setEmail(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" />
                 </div>
                 <div className="space-y-1">
                     <label className="text-sm font-medium text-gray-700 ml-1 block">Password</label>
-                    <input placeholder="******" type="password" name="password" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"/>
+                    <input placeholder="******" type="password" name="password" value={password} onChange={(e)=>setPassword(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"/>
                 </div>
                
                 <button className="w-full bg-indigo-600  hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg py-3 shadow-indigo-200 transition-all active:scale-[0.98]">Login</button>

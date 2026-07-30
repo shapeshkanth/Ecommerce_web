@@ -19,6 +19,17 @@ try {
 }
 }) 
 
+export const getProfile = createAsyncThunk("user/profile",async (_,{rejectWithValue})=>{
+
+  try {
+    
+    const {data} =await axios.get("api/v1/profile");
+    return data
+  } catch (error) {
+    return rejectWithValue(error.response?.data || "Failed to load user profile")
+  }
+})
+
 
 const userSlice = createSlice({
     name:"user",
@@ -52,11 +63,41 @@ const userSlice = createSlice({
 
        localStorage.setItem("user",JSON.stringify(state.user))
        localStorage.setItem("isAuthenticated",JSON.stringify(state.isAuthenticated))
+
      }).addCase(register.rejected,(state,action)=>{
        state.loading = false;
        state.error = action.payload?.message || "Registration faild. Please try agin";
        state.user = null;
        state.isAuthenticated = false;
+     })
+
+     builder.addCase(getProfile.pending,(state)=>{
+         state.loading=true;
+         state.error=null;
+     }).addCase(getProfile.fulfilled,(state,action)=>{
+        state.loading=false;
+        state.error = null;
+        state.isAuthenticated = Boolean(action.payload?.data);
+        state.user = action.payload?.user || null;
+
+        localStorage.setItem("user",JSON.stringify(state.user));
+        localStorage.setItem("isAuthenticated",JSON.stringify(state.isAuthenticated));
+        
+     }).addCase(getProfile.rejected,(state,action)=>{
+       state.loading=false;
+       state.error=action.payload?.message || "Failed to load user profile";
+       state.user=null;
+       state.isAuthenticated=false;
+
+       if(action.payload?.satatusCode===401)
+       {
+          
+          state.isAuthenticated=false;
+          state.user=null;
+          localStorage.removeItem("user");
+          localStorage.removeItem("isAuthenticated");
+
+       }
      })
     }
 
