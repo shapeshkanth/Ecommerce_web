@@ -93,7 +93,7 @@ const userSlice = createSlice({
      }).addCase(getProfile.fulfilled,(state,action)=>{
         state.loading=false;
         state.error = null;
-        state.isAuthenticated = Boolean(action.payload?.data);
+        state.isAuthenticated = Boolean(action.payload?.user);
         state.user = action.payload?.user || null;
 
         localStorage.setItem("user",JSON.stringify(state.user));
