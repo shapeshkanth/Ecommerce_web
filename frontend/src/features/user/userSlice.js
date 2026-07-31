@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
+//Register
 export const register = createAsyncThunk("user/register",async (userDate,{rejectWithValue})=>{
 try {
 
@@ -18,7 +18,7 @@ try {
     return rejectWithValue(error.response?.data || "Registration faild. Please try agin")
 }
 }) 
-
+//Get Profile
 export const getProfile = createAsyncThunk("user/profile",async (_,{rejectWithValue})=>{
 
   try {
@@ -29,7 +29,23 @@ export const getProfile = createAsyncThunk("user/profile",async (_,{rejectWithVa
     return rejectWithValue(error.response?.data || "Failed to load user profile")
   }
 })
+//Login
+export const login =createAsyncThunk("user/login",async ({email,password},{rejectWithValue})=>{
 
+  try {
+
+    const config={
+      headers:{
+        "Content-type":"application/json"
+      }
+    }
+    const { data } = await axios.post("api/v1/loginUser",{ email,password },config);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error.response?.message || "Login failed Please try again..")
+    
+  }
+})
 
 const userSlice = createSlice({
     name:"user",
@@ -98,6 +114,28 @@ const userSlice = createSlice({
           localStorage.removeItem("isAuthenticated");
 
        }
+     })
+
+     builder.addCase(login.pending,(state)=>{
+      state.loading=true;
+      state.error=null;
+     }).addCase(login.fulfilled,(state,action)=>{
+      state.loading=false;
+      state.error=null;
+      state.user=action.payload?.user || null;
+      state.success = action.payload.success;
+      state.isAuthenticated = Boolean(action.payload?.user);
+
+
+      localStorage.setItem("user",JSON.stringify(state.user));
+      localStorage.setItem("isAuthenticated",JSON.stringify(state.isAuthenticated))
+
+     }).addCase(login.rejected,(state,action)=>{
+      state.loading=false;
+      state.error=action.payload?.message || "Login failed Please try again..";
+      state.user=null;
+      state.isAuthenticated = false;
+     
      })
     }
 

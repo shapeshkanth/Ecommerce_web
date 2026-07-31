@@ -62,7 +62,7 @@ const Register = ()=>{
    
     if(success)
     {
-        toast.success("Registration SuccessFull", {position:"top-center",autoClose:3000});
+        toast.success("Registration SuccessFully", {position:"top-center",autoClose:3000});
         dispatch(removeSuccess())
         navigate("/login")
     }
