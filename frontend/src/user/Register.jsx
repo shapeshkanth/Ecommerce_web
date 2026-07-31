@@ -101,7 +101,7 @@ const Register = ()=>{
                     </label>
                 </div>
                 <button className="w-full bg-indigo-600  hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg py-3 shadow-indigo-200 transition-all active:scale-[0.98]">{loading ? "Please wait.." : "Sign Up"}</button>
-                <p>Already have an account ? <Link className="text-indigo-600 font-semibold hover:underline">Sign in here</Link></p>
+                <p>Already have an account ? <Link to="/login" className="text-indigo-600 font-semibold hover:underline">Sign in here</Link></p>
             </form>
         </div>
     </div>

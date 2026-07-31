@@ -4,9 +4,10 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 const Navbar = ()=>{
     const [open, setOpen] = useState(false)
-    const isAuthenticated = useSelector((state)=>state.user) ;
+    const { isAuthenticated, user }  = useSelector((state)=>state.user) ;
     const [searchQuery, setSearchQuery]=useState("")
     const navigate = useNavigate()
+    const [profileDropdownOpen,setProfileDropdownOpen] = useState(false)
    
     const handleSearch = (e)=>{
          e.preventDefault();
@@ -18,6 +19,8 @@ const Navbar = ()=>{
        }
        setSearchQuery("")
     }
+
+  
     return(
         <nav className='sticky top-0 w-full bg-white shadow-md z-50' >
             <div className='flex items-center max-w-7xl mx-auto px-4 bg-green-100 h-16 justify-between'>
@@ -47,11 +50,46 @@ const Navbar = ()=>{
                 <span className='absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-4 h-4 rounded-full flex items-center justify-center'>6</span>
                 </Link>
                 
-                {!isAuthenticated && (<Link to='/register' className='hidden sm:flex gap-1 items-center bg-blue-500 text-white py-1 px-2 rounded-lg hover:bg-blue-600 transition'>
+                {!isAuthenticated ? (
+                    <div className='hidden sm:flex items-center gap-4'>
+                        <Link to="/login" className='text-gray-700 hover:text-blue-600 transition font-semibold'> Login</Link>
+                        <Link to='/register' className='hidden sm:flex gap-1 items-center bg-blue-500 text-white py-1 px-2 rounded-lg hover:bg-blue-600 transition'>
                                         <User size={19}/>
                                         Register
                                     </Link>
+                    </div>
+               ) :(
+                <div className='relative hidden sm:block'>
+                    <button className='flex-items-center' onClick={()=>setProfileDropdownOpen(!profileDropdownOpen)}>
+                        <img src={user?.avatar?.url} alt={user?.name} title={user?.name} className='h-10 w-10 rounded-full object-cover border border-blue-600' />
+                    </button>
+                    {profileDropdownOpen && (
+                    <div className='absolute right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-50'>
+                        <div className='px-4 py-3 border border-gray-100 bg-gray-50 '>
+                            <p className='text-sm font-medium text-gray-900'>{user?.name}</p>
+                            <p className='text-sm text-gray-500 truncate'>{user?.email}</p>
+                        </div>
+                        <div className='py-1'>
+                            <Link to="/profile" onClick={()=>setProfileDropdownOpen(false)} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+                              My Profile
+                            </Link>
+                            <Link to="/orders" onClick={()=>setProfileDropdownOpen(false)} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+                            My Orders
+                            </Link>
+                            <Link to="/Settings" onClick={()=>setProfileDropdownOpen(false)} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+                            Settings
+                            </Link>
+                        </div>
+                        <div className='border border-gray-100 py-1'>
+                            <button className='block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100'>
+                              Logout
+                            </button>
+                        </div>
+                    </div>
+                )}
+                </div>
                )}
+               
                <div>
                     <button onClick={()=>setOpen(!open)} className='text-gray-700 md:hidden'>
                     {open ? <X/> : <Menu/>}  
