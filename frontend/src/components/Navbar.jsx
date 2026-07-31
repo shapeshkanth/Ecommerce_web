@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Search, ShoppingBag, ShoppingCart, User, X, Menu } from 'lucide-react'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 const Navbar = ()=>{
     const [open, setOpen] = useState(false)
-    const isAuthenticated = false ;
+    const isAuthenticated = useSelector((state)=>state.user) ;
     const [searchQuery, setSearchQuery]=useState("")
     const navigate = useNavigate()
+   
     const handleSearch = (e)=>{
          e.preventDefault();
        if(searchQuery.trim())

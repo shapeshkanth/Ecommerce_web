@@ -6,8 +6,21 @@ import Register from './user/Register';
 import ProductDetails from './pages/ProductDetails';
 import { Products } from './pages/Products';
 import Login from './user/Login';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getProfile } from './features/user/userSlice';
 
 const App = ()=>{
+
+const {user,isAuthenticated} = useSelector((state)=>state.user)
+const dispatch = useDispatch();
+useEffect(()=>{
+if(isAuthenticated)
+{
+  dispatch(getProfile())
+}
+},[dispatch])
+
   return(
     <BrowserRouter>
       <Routes>
