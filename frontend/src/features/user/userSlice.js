@@ -73,7 +73,7 @@ const userSlice = createSlice({
         state.error=null
       },
       removeSuccess:(state)=>{
-        state.success=null
+        state.success=false
       }
     },
     extraReducers:(builder)=>{
@@ -156,7 +156,7 @@ const userSlice = createSlice({
       state.error=null;
       state.loading=false;
       state.user=null;
-      state.success=action.payload?.success || true;
+      state.success=false;
       state.isAuthenticated=false;
 
       localStorage.removeItem("user")
