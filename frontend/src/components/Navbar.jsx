@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Search, ShoppingBag, ShoppingCart, User, X, Menu } from 'lucide-react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../features/user/userSlice'
 const Navbar = ()=>{
     const [open, setOpen] = useState(false)
     const { isAuthenticated, user }  = useSelector((state)=>state.user) ;
     const [searchQuery, setSearchQuery]=useState("")
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [profileDropdownOpen,setProfileDropdownOpen] = useState(false)
    
@@ -20,6 +22,9 @@ const Navbar = ()=>{
        setSearchQuery("")
     }
 
+    const handleLogout=()=>{
+       dispatch(logout())
+    }
   
     return(
         <nav className='sticky top-0 w-full bg-white shadow-md z-50' >
@@ -81,7 +86,10 @@ const Navbar = ()=>{
                             </Link>
                         </div>
                         <div className='border border-gray-100 py-1'>
-                            <button className='block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100'>
+                            <button onClick={()=>{
+                                 handleLogout();
+                                 setProfileDropdownOpen(false)
+                                 }} className='block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100'>
                               Logout
                             </button>
                         </div>
