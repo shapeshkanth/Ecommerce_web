@@ -106,12 +106,51 @@ const Navbar = ()=>{
             </div>
 
             </div>
-            <div className={`md:hidden overflow:hidden transition-all duration-300 ease-in-out ${open ? "max-h-96 opacity-100 translate-y-0 pointer-events-auto":"max-h-0 opacity-0 -translate-y-2 pointer-events-none"}`}>
+            <div className={`md:hidden overflow:hidden transition-all duration-300 ease-in-out ${open ? "max-h-[450px] opacity-100 translate-y-0 pointer-events-auto":"max-h-0 opacity-0 -translate-y-2 pointer-events-none"}`}>
                 <div className='flex flex-col p-4 gap-4'>
                     <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/">Home</Link>
                     <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/products">Products</Link>
                     <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/About">About-us</Link>
                     <Link onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-400 transition font-semibold' to="/Contact">Contact-us</Link>
+                
+                     {!isAuthenticated ? (
+                    <div className='flex flex-col gap-4'>
+                        <Link to="/login" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'> Login</Link>
+                        <Link to='/register' onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>
+                            Register
+                        </Link>
+                    </div>
+               ):(
+                <div className='flex flex-col gap-4 border-t border-gray-200 pt-4 mt-2'>
+                    <div className='flex items-center gap-3'>
+                        <img src={user?.avatar?.url} alt={user?.name} title={user?.name} className='h-10 w-10 rounded-full object-cover border border-blue-600' />         
+                       <div>
+                        <p className='text-sm font-medium text-gray-900'>{user?.name}</p>
+                        <p className='text-sm text-gray-500 truncate'>{user?.email}</p>
+
+                       </div>
+                    </div>
+                          <Link to="/profile" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>
+                              My Profile
+                            </Link>
+                            <Link to="/orders" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>
+                            My Orders
+                            </Link>
+                            <Link to="/Settings" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>
+                            Settings
+                            </Link>
+
+                            <button onClick={()=>{
+                                 handleLogout();
+                                 setOpen(false);
+                                 }} className='text-left text-red-500 hover:text-red-600 transition  font-semibold'>
+                              Logout
+                            </button>
+                </div>
+               )}
+
+                
+                
                 </div>
             </div>
             
