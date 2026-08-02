@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getProfile } from './features/user/userSlice';
 import Profile from './user/Profile';
+import  UpdateProfile  from './user/UpdateProfile';
 
 const App = ()=>{
 
@@ -33,6 +34,7 @@ if(isAuthenticated)
         <Route path="/products" element={<Products/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/update/profile" element={<UpdateProfile/>}/>
       </Routes>
     </BrowserRouter>
     
