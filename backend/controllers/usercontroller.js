@@ -181,8 +181,31 @@ export const profile = async (req,res,next) =>{
   })
 }
 export const updateProfile = async (req,res,next)=>{
-  const { name, email } = req.body
+  const { name, email, avatar } = req.body
   const updatefields = { name, email }
+
+  if(avatar && avatar !=="")
+  {
+      const user = await User.findById(req.user.id)
+      const ImageId = user.avatar?.public_id;
+
+      if(ImageId)
+      {
+        await cloudinary.uploader.destroy(ImageId);
+      }
+
+      const myCloud = await cloudinary.uploader.upload(avatar,{
+        folder:"avatars",
+        width:150,
+        crop:"scale"
+      });
+
+      updatefields.avatar = {
+        public_id:myCloud.public_id,
+        url:myCloud.secure_url
+      }
+
+  }
   const user = await User.findByIdAndUpdate(req.user.id,updatefields,{new:true,runValidators:true})
 res.status(200).json({
   success:true,
