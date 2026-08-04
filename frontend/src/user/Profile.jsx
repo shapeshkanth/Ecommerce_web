@@ -37,7 +37,8 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="w-full mt-8">
-                    <Link to="/profile/update" className="w-full flex justify-center px-4 py-3 border border-transparent rounded shadow-md shadow-indigo-200 text-sm font-sm font-bold bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all active:scale-[0.98]">Edit Profile</Link>
+                    <Link to="/profile/update" 
+                    className="w-full flex justify-center px-4 py-3 border border-transparent rounded shadow-md shadow-indigo-200 text-sm font-sm font-bold bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all active:scale-[0.98]">Edit Profile</Link>
                 </div>
 
             </div>

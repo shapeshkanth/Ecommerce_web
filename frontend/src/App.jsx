@@ -20,9 +20,10 @@ const dispatch = useDispatch();
 useEffect(()=>{
 if(isAuthenticated)
 {
-  dispatch(getProfile())
+dispatch(getProfile())
+
 }
-},[dispatch])
+},[isAuthenticated])
 
   return(
     <BrowserRouter>
@@ -34,8 +35,9 @@ if(isAuthenticated)
         <Route path="/product/:id" element={<ProductDetails/>}/>
         <Route path="/products" element={<Products/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/profile" element={<Profile/>}/>
         <Route path="/profile/update" element={<UpdateProfile/>}/>
+        <Route path="/profile" element={<Profile/>}/>
+        
       </Routes>
     </BrowserRouter>
     

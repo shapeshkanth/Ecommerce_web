@@ -10,7 +10,7 @@ try {
             "Content-Type" : "multipart/form-data"
         },
     };
-     const { data } = await axios.post("api/v1/adduser",userDate,config)
+     const { data } = await axios.post("/api/v1/adduser",userDate,config)
 
      return data
 
@@ -23,7 +23,7 @@ export const getProfile = createAsyncThunk("user/profile",async (_,{rejectWithVa
 
   try {
     
-    const {data} =await axios.get("api/v1/profile");
+    const {data} =await axios.get("/api/v1/profile");
     return data
   } catch (error) {
     return rejectWithValue(error.response?.data || "Failed to load user profile")
@@ -39,7 +39,7 @@ export const login =createAsyncThunk("user/login",async ({email,password},{rejec
         "Content-type":"application/json"
       }
     }
-    const { data } = await axios.post("api/v1/loginUser",{ email,password },config);
+    const { data } = await axios.post("/api/v1/loginUser",{ email,password },config);
     return data;
   } catch (error) {
     return rejectWithValue(error.response?.message || "Login failed Please try again..")
@@ -57,6 +57,27 @@ export const logout =createAsyncThunk("user/logout",async (_,{rejectWithValue})=
   }
 
 })
+
+//update profile
+export const updateProfile = createAsyncThunk("user/profile/update",async(userData,{rejectWithValue})=>{
+
+  try {
+    const config={
+          headers:{
+        "Content-Type":"multipart/form-data"
+        }
+    }
+    const { data } = await axios.put("/api/v1/profile/update",userData,config)
+
+   return data;
+    
+  } catch (error) {
+    
+    return rejectWithValue(error.response?.data || "Profile update failed.")
+  }
+
+})
+
 const userSlice = createSlice({
     name:"user",
     initialState:{
@@ -115,9 +136,9 @@ const userSlice = createSlice({
        state.user=null;
        state.isAuthenticated=false;
 
-       if(action.payload?.satatusCode===401)
+       if(action.payload?.statusCode===401)
        {
-          
+     
           state.isAuthenticated=false;
           state.user=null;
           localStorage.removeItem("user");
@@ -158,7 +179,7 @@ const userSlice = createSlice({
       state.user=null;
       state.success=false;
       state.isAuthenticated=false;
-
+    
       localStorage.removeItem("user")
       localStorage.removeItem("isAuthenticated")
 
@@ -166,6 +187,23 @@ const userSlice = createSlice({
      }).addCase(logout.rejected,(state,action)=>{
       state.loading=false;
       state.error=action.payload?.message || "Logout failed"
+
+     })
+
+     builder.addCase(updateProfile.pending,(state)=>{
+      state.loading=true;
+      state.error=null;
+
+     }).addCase(updateProfile.fulfilled,(state,action)=>{
+      state.error=null;
+      state.loading=false;
+      state.success=action.payload.success;
+      state.user=action.payload?.user || state.user;
+      localStorage.setItem("user",JSON.stringify(state.user));
+
+     }).addCase(updateProfile.rejected,(state,action)=>{
+      state.loading=false;
+      state,error=action.payload?.message || "Profile update failed";
 
      })
     }

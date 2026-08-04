@@ -67,14 +67,14 @@ const productSlice = createSlice({
        })
 
        builder.addCase(getProductDetails.pending,(state)=>{
-          state.loding=true;
+          state.loading=true;
           state.error = null;
        }).addCase(getProductDetails.fulfilled,(state,action)=>{
           state.loading = false;
           state.error = null;
           state.product = action.payload.singleproduct
        }).addCase(getProductDetails.rejected,(state,action)=>{
-          state.loding=false;
+          state.loading=false;
           state.error = action.payload || "Something went wrong.."
        })
    }
