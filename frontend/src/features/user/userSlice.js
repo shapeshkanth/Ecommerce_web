@@ -203,7 +203,7 @@ const userSlice = createSlice({
 
      }).addCase(updateProfile.rejected,(state,action)=>{
       state.loading=false;
-      state,error=action.payload?.message || "Profile update failed";
+      state.error=action.payload?.message || "Profile update failed";
 
      })
     }

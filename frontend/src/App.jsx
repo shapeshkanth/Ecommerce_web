@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { getProfile } from './features/user/userSlice';
 import Profile from './user/Profile';
 import UpdateProfile from './user/UpdateProfile'
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 
 const App = ()=>{
@@ -35,8 +36,8 @@ dispatch(getProfile())
         <Route path="/product/:id" element={<ProductDetails/>}/>
         <Route path="/products" element={<Products/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/profile/update" element={<UpdateProfile/>}/>
-        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile/>}/>   }/>
+        <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
         
       </Routes>
     </BrowserRouter>

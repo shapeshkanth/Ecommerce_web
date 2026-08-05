@@ -16,10 +16,6 @@ import toast from "react-hot-toast";
   const dispatch = useDispatch()
 
 useEffect(()=>{
-  if(isAuthenticated===false)
-  {
-    navigate("/login");
-  }
 
 },[isAuthenticated])
 

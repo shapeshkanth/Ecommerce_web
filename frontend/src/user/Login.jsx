@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import { login, removeErrors } from "../features/user/userSlice"
+import { login, removeErrors, removeSuccess } from "../features/user/userSlice"
 import  toast  from "react-hot-toast"
 
 
@@ -31,6 +31,7 @@ const Login = () => {
   if(success)
   {
    toast.success("Login Successfully",{position:"top-center",autoClose:3000})
+   dispatch(removeSuccess())
    navigate("/")
   }
   },[success,dispatch])
