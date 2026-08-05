@@ -12,6 +12,7 @@ import { getProfile } from './features/user/userSlice';
 import Profile from './user/Profile';
 import UpdateProfile from './user/UpdateProfile'
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { UpdatePassword } from './user/UpdatePassword';
 
 
 const App = ()=>{
@@ -38,7 +39,8 @@ dispatch(getProfile())
         <Route path="/login" element={<Login/>}/>
         <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile/>}/>   }/>
         <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
-        
+        <Route path="/password/update" element={<ProtectedRoute element={<UpdatePassword/>}/>}/>
+
       </Routes>
     </BrowserRouter>
     
