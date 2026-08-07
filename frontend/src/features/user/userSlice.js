@@ -128,7 +128,7 @@ export const resetPassword = createAsyncThunk("user/resetpassword",async({token,
     return data;
     
   } catch (error) {
-    return rejectWithValue(error.response?.message || "Reset Pasword failed")
+    return rejectWithValue(error.response?.data || "Reset Pasword failed")
   }
 })
 

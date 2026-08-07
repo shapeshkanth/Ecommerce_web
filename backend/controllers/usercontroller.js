@@ -148,7 +148,7 @@ try {
 
 export const resetPassword = async (req,res,next)=>{
  const  resettoken = req.params.token
- const { password, confirmpassword } = req.body
+ const { password, confirmPassword } = req.body
  const resetPasswordToken = crypto.createHash("sha256").update(resettoken).digest("hex")
 //console.log(resetPasswordToken)
   const user = await User.findOne({

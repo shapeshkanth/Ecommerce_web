@@ -3,28 +3,51 @@ import Navbar from '../components/Navbar'
 import PageTitle from '../components/PageTitle'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { useDispatch } from 'react-redux'
-import { removeErrors } from '../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeErrors, removeSuccess, resetPassword } from '../features/user/userSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export const ResetPassword = () => {
     const dispatch = useDispatch();
+    const {error,loading,success,message}=useSelector((state)=>state.user);
+    const navigate=useNavigate();
+    const {token}=useParams()
     const [password,setPassword]=useState("");
     const [confirmPassword,setConfirmPassword] = useState("");
 
+
+    useEffect(()=>{
+     
+        if(error)
+        {
+            toast.error(error,{position:"top-center",autoClose:3000})
+            dispatch(removeErrors());
+        }
+        if(success)
+        {
+            toast.success("Password reset successfully",{position:"top-center",autoClose:3000});
+            dispatch(removeSuccess());
+            navigate("/login");
+        }
+
+    },[dispatch,error,success])
     const resetPasswordSubmit=(e)=>{
         e.preventDefault();
         if(password!==confirmPassword)
         {
             toast.error("password do not match",{position:"top-center",autoClose:3000});
-            dispatch(removeErrors());
             setPassword("");
             setConfirmPassword("");
+            return;
             
         }
-        const date={
+        const data={
             password,
             confirmPassword
         };
+
+        dispatch(resetPassword({token,userData:data}))
     };
   return (
     <>
