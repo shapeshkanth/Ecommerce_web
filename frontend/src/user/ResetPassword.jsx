@@ -1,0 +1,43 @@
+import React from 'react'
+import Navbar from '../components/Navbar'
+import PageTitle from '../components/PageTitle'
+
+export const ResetPassword = () => {
+  return (
+    <>
+    <Navbar/>
+    <PageTitle title="Reset Password"/>
+    <div className='min-h-screen bg-gray-50 flex flex-col items-center py-12 sm:px-6 lg:px-8 pt-24'>
+        <div className='sm:mx-auto sm:w-full sm:max-w-md'>
+            <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900 drop-shadow-sm'>
+                Reset Password
+            </h2>
+        </div>
+        <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
+            <div className='bg-white py-8 px-4 shadow sm:rounded-lg'>
+             <form className='space-y-5'>
+                <div>
+                    <label className='block text-sm font-semibold text-gray-700'> New Password</label>
+                    <div className='mt-1'>
+                       <input type="password" name='password' placeholder='Enter your new password' className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring focus:ring-indigo-500 focus:border-transparent outline-none transition-all'/>
+                    </div>
+                    
+                </div>
+                <div>
+                    <label className='block text-sm font-semibold text-gray-700'>Confirm New Password</label>
+                    <div className='mt-1'>
+                       <input type="password" name='confirmPassword' placeholder='Enter your confirm new password' className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring focus:ring-indigo-500 focus:border-transparent outline-none transition-all'/>
+                    </div>
+                    
+                </div>
+                <button className='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-lg shadow-indogo-200 transition-all active:scale-[0.98]'>
+                    Reset Password
+                </button>
+             </form>
+            </div>
+        </div>
+
+    </div>
+    </>
+  )
+}

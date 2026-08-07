@@ -91,7 +91,7 @@ try {
   return next(new ErrorHandler(500,"Please try again later"))
 }
 
-const resetPasswordURL = `${req.protocol}://${req.host}/reset/${resetTkn}`
+const resetPasswordURL = `${req.protocol}://${req.host}/resetPassword/${resetTkn}`
 
 //const textMessage = `Reset Password link ${resetPasswordURL}`
 const messageHtml = `<div style="max-width:600px;margin:auto;padding:20px;font-family:Arial,sans-serif;border:1px solid #ddd;border-radius:10px;">
