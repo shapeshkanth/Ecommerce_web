@@ -96,10 +96,10 @@ export const updatePassword = createAsyncThunk("user/password/update",async (use
 }) 
 
 //Forget password
-export const forgetPassword = createAsyncThunk("Forget/password",async ({email},{rejectWithValue})=>{
+export const forgetPassword = createAsyncThunk("user/forgetPassword",async ({email},{rejectWithValue})=>{
 
   try {
-    config={
+    const config={
       headers:{
         "Content-Type":"application/json"
       }

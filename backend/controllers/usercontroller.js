@@ -129,13 +129,13 @@ const messageHtml = `<div style="max-width:600px;margin:auto;padding:20px;font-f
     </p>
 
 </div>`
-//console.log(textMessage)
+
 const subject = "Password Reset Request"
 
 try {
   await sendEmail({email:user.email,subject:subject,htmlMessage:messageHtml})
-  res.json({success:true,meaage:"Please check your mail"})
-  console.log(resetTkn)
+  res.json({success:true,message:`Password reset link sent to ${user.email} successfully.`})
+  
 } catch (error) {
   user.resetPasswordToken = undefined
   user.resetPasswordExpire = undefined
