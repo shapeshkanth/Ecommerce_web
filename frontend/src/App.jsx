@@ -13,6 +13,7 @@ import Profile from './user/Profile';
 import UpdateProfile from './user/UpdateProfile'
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { UpdatePassword } from './user/UpdatePassword';
+import { ForgetPassword } from './user/ForgetPassword';
 
 
 const App = ()=>{
@@ -40,6 +41,7 @@ dispatch(getProfile())
         <Route path="/profile/update" element={<ProtectedRoute element={<UpdateProfile/>}/>   }/>
         <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
         <Route path="/password/update" element={<ProtectedRoute element={<UpdatePassword/>}/>}/>
+        <Route path="/password/forget" element={<ForgetPassword/>}/>
 
       </Routes>
     </BrowserRouter>

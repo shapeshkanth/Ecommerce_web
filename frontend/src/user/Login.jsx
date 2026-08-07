@@ -54,7 +54,14 @@ const Login = () => {
                 </div>
                
                 <button className="w-full bg-indigo-600  hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg py-3 shadow-indigo-200 transition-all active:scale-[0.98]">Login</button>
-                <p>Don't have an account ? <Link to='/register' className="text-indigo-600 font-semibold hover:underline">Sign up here</Link></p>
+                <p className="text-center text-sm text-gray-600">
+                    Don't have an account? 
+                    <Link to='/register' className="text-indigo-600 font-semibold hover:underline"> Sign up here</Link>
+                </p>
+                <p className="text-center text-sm text-gray-600">
+                    Forget your password?
+                    <Link to="/password/forget" className="text-indigo-600 font-semibold hover:underline"> Reset Passwoed</Link>
+                </p>
             </form>
         </div>
     </div>
