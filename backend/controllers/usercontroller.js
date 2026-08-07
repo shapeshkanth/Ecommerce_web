@@ -160,7 +160,7 @@ export const resetPassword = async (req,res,next)=>{
   return next(new ErrorHandler(400,"Invalid or Reset link expired"))
  }
 
- if(password!==confirmpassword)
+ if(password!==confirmPassword)
  {
   return next(new ErrorHandler(401,"Password does not match"))
  }

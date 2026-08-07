@@ -1,8 +1,31 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import PageTitle from '../components/PageTitle'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
+import { removeErrors } from '../features/user/userSlice'
 
 export const ResetPassword = () => {
+    const dispatch = useDispatch();
+    const [password,setPassword]=useState("");
+    const [confirmPassword,setConfirmPassword] = useState("");
+
+    const resetPasswordSubmit=(e)=>{
+        e.preventDefault();
+        if(password!==confirmPassword)
+        {
+            toast.error("password do not match",{position:"top-center",autoClose:3000});
+            dispatch(removeErrors());
+            setPassword("");
+            setConfirmPassword("");
+            
+        }
+        const date={
+            password,
+            confirmPassword
+        };
+    };
   return (
     <>
     <Navbar/>
@@ -15,18 +38,18 @@ export const ResetPassword = () => {
         </div>
         <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
             <div className='bg-white py-8 px-4 shadow sm:rounded-lg'>
-             <form className='space-y-5'>
+             <form className='space-y-5' onSubmit={resetPasswordSubmit}>
                 <div>
                     <label className='block text-sm font-semibold text-gray-700'> New Password</label>
                     <div className='mt-1'>
-                       <input type="password" name='password' placeholder='Enter your new password' className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring focus:ring-indigo-500 focus:border-transparent outline-none transition-all'/>
+                       <input type="password" name='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Enter your new password' className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring focus:ring-indigo-500 focus:border-transparent outline-none transition-all'/>
                     </div>
                     
                 </div>
                 <div>
                     <label className='block text-sm font-semibold text-gray-700'>Confirm New Password</label>
                     <div className='mt-1'>
-                       <input type="password" name='confirmPassword' placeholder='Enter your confirm new password' className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring focus:ring-indigo-500 focus:border-transparent outline-none transition-all'/>
+                       <input type="password" name='confirmPassword' value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder='Enter your confirm new password' className='w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring focus:ring-indigo-500 focus:border-transparent outline-none transition-all'/>
                     </div>
                     
                 </div>
