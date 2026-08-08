@@ -17,6 +17,7 @@ const ProductDetails = () => {
     const dispatch = useDispatch();
     const {product, error, loading} = useSelector((state)=>state.product);
     const {userRating,setUserRating} = useState(0)
+    const [quantity, setQuantity]=useState(1);
     const { id } = useParams();
     useEffect(()=>{
         if(id)
@@ -32,6 +33,22 @@ const ProductDetails = () => {
             dispatch(removeErrors())
         }
     },[dispatch,error])
+
+
+const increaseQuantity=()=>{
+    if(product.stock>quantity)
+    {
+        setQuantity(quantity+1);
+    }
+ 
+}
+const decreaseQuantity=()=>{
+if(quantity>1)
+{
+  setQuantity(quantity-1)
+}
+}
+
   return( loading?(<Loading/>):(
     <div className="min-h-screen bg-gray-50">
         <PageTitle title={`${product?.name} | Details`}/>
@@ -70,13 +87,13 @@ const ProductDetails = () => {
                     </div>
                 {product?.stock>0 && (<div className="flex flex-wrap items-center gap-4">
                     <div className="flex items-center border-2 border-gray-100 rounded-xl bg-white overflow-hidden shadow-sm">
-                        <button className="p-4 hover:bg-gray-50 hover:text-amber-500 transition-colors">
+                        <button onClick={decreaseQuantity} className="p-4 hover:bg-gray-50 hover:text-amber-500 transition-colors">
                             <Minus size={18}/>
                         </button>
                         <span className="w-10 text-center font-bold text-gray-80000">
-                            1
+                            {quantity}
                         </span>
-                        <button className="p-4 hover:bg-gray-50 hover:text-amber-500 transition-colors">
+                        <button onClick={increaseQuantity} className="p-4 hover:bg-gray-50 hover:text-amber-500 transition-colors">
                             <Plus size={18}/>
                         </button>
                     </div>
