@@ -6,6 +6,7 @@ import { logout } from '../features/user/userSlice'
 const Navbar = ()=>{
     const [open, setOpen] = useState(false)
     const { isAuthenticated, user }  = useSelector((state)=>state.user) ;
+    const {cartItems}= useSelector((state)=>state.cart)
     const [searchQuery, setSearchQuery]=useState("")
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -53,7 +54,7 @@ const Navbar = ()=>{
                 </form>
                 <Link to='/cart' className='relative'>
                 <ShoppingCart/>
-                <span className='absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-4 h-4 rounded-full flex items-center justify-center'>6</span>
+                <span className='absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-4 h-4 rounded-full flex items-center justify-center'>{cartItems.length}</span>
                 </Link>
                 
                 {!isAuthenticated ? (

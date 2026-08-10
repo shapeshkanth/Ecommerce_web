@@ -11,12 +11,14 @@ import Loading from "../components/Loading"
 import toast from "react-hot-toast"
 import { calculateDiscount, formatDate } from "../utils/formatter"
 import { useState } from "react"
+import { addToCartItem, removeSuccess } from "../features/cart/cartSlice"
 
 
 const ProductDetails = () => {
     const dispatch = useDispatch();
     const {product, error, loading} = useSelector((state)=>state.product);
-    const {userRating,setUserRating} = useState(0)
+    const {loading:cartLoading,error:cartError,success,message}= useSelector((state)=>state.cart)
+    const [userRating,setUserRating] = useState(0)
     const [quantity, setQuantity]=useState(1);
     const { id } = useParams();
     useEffect(()=>{
@@ -34,19 +36,31 @@ const ProductDetails = () => {
         }
     },[dispatch,error])
 
+    useEffect(()=>{
+        if(success)
+        {
+            toast.success(message,{position:"top-center",autoClose:3000});
+            dispatch(removeSuccess())
+        }
+    
+    },[dispatch,message])
+
 
 const increaseQuantity=()=>{
     if(product.stock>quantity)
     {
         setQuantity(quantity+1);
     }
- 
 }
 const decreaseQuantity=()=>{
-if(quantity>1)
-{
-  setQuantity(quantity-1)
+    if(quantity>1)
+    {
+    setQuantity(quantity-1)
+    }
 }
+
+const addToCartHandler =()=>{
+    dispatch(addToCartItem({id,quantity}));
 }
 
   return( loading?(<Loading/>):(
@@ -97,7 +111,7 @@ if(quantity>1)
                             <Plus size={18}/>
                         </button>
                     </div>
-                            <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-100 active:scale-95 ">
+                            <button disabled={cartLoading} onClick={addToCartHandler} className={`flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-100 active:scale-95 ${cartLoading ? "opacity-50 cursor-not-allowed" : ""}`}>
                                 <ShoppingCart/>
                                 Add to Cart
                             </button>
