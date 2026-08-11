@@ -17,7 +17,7 @@ import { addToCartItem, removeSuccess } from "../features/cart/cartSlice"
 const ProductDetails = () => {
     const dispatch = useDispatch();
     const {product, error, loading} = useSelector((state)=>state.product);
-    const {loading:cartLoading,error:cartError,success,message}= useSelector((state)=>state.cart)
+    const {loading:cartLoading,error:cartError,success,message,cartItems}= useSelector((state)=>state.cart)
     const [userRating,setUserRating] = useState(0)
     const [quantity, setQuantity]=useState(1);
     const { id } = useParams();

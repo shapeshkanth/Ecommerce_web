@@ -9,6 +9,7 @@ export const addToCartItem = createAsyncThunk("cart/add",async({id,quantity},{re
         return {
             product:data.singleproduct._id,
             name:data.singleproduct.name,
+            price:data.singleproduct.price,
             image:data.singleproduct.image[0].url,
             stock:data.singleproduct.stock,
             quantity
@@ -34,6 +35,7 @@ const cartSlice=createSlice({
         },
         removeSuccess:(state)=>{
          state.success=false;
+         
         }
     },
     extraReducers:(builder)=>{
