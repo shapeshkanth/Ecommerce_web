@@ -1,18 +1,20 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PageTitle from '../components/PageTitle';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { CartItems } from './CartItems';
+import { clearCart } from '../features/cart/cartSlice';
+import { Trash2 } from 'lucide-react';
 
 export const Cart = () => {
 
+    const dispatch = useDispatch(); 
     const {error,loading, success, cartItems, message}=useSelector((state)=>state.cart);
     const subTotal=cartItems.reduce((acc,item)=>acc+(item.price*item.quantity),0);
     const tax=subTotal*0.18;
     const shippingCharges=cartItems.length===0 ? 0: (subTotal>500 ? 0 : 50);
     const Total =subTotal+tax+shippingCharges;
-console.log(cartItems)
   return (
     <>
     <PageTitle title={"Your cart"}/>
@@ -22,7 +24,12 @@ console.log(cartItems)
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
           <div className='lg:col-span-2'>
              <div className='bg-white rounded-2xl shadow-lg p-6'>
-               <h2 className='text-2xl font-bold text-slate-800 mb-6'> Your Cart</h2>
+               <h2 className='text-2xl font-bold text-slate-800 mb-6 flex justify-between'>
+                 Your Cart
+                <button onClick={()=>dispatch(clearCart())} className='text-red-500 hover:text-red-700 transition-colors flex items-center text-sm gap-2 '>
+                       <Trash2/>Clear Cart
+                </button>
+                </h2>
                <div className='space-y-4'>
                   {cartItems.length===0 ? (
                     <div className='text-center py-12'>
@@ -65,6 +72,9 @@ console.log(cartItems)
                </div>
 
               </div>
+              <button className='w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition mt-5'>
+                Proceed To Checkout
+              </button>
             </div>
           </div>
         </div>
