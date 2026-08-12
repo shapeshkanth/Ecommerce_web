@@ -6,15 +6,21 @@ import Footer from '../components/Footer';
 import { CartItems } from './CartItems';
 import { clearCart } from '../features/cart/cartSlice';
 import { Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const Cart = () => {
 
     const dispatch = useDispatch(); 
+    const navigate = useNavigate();
     const {error,loading, success, cartItems, message}=useSelector((state)=>state.cart);
     const subTotal=cartItems.reduce((acc,item)=>acc+(item.price*item.quantity),0);
     const tax=subTotal*0.18;
     const shippingCharges=cartItems.length===0 ? 0: (subTotal>500 ? 0 : 50);
     const Total =subTotal+tax+shippingCharges;
+
+    const checkoutHandler=()=>{
+   navigate("/login?redirect=/shipping");
+    }
   return (
     <>
     <PageTitle title={"Your cart"}/>
@@ -72,7 +78,7 @@ export const Cart = () => {
                </div>
 
               </div>
-              <button className='w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition mt-5'>
+              <button onClick={checkoutHandler} className='w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition mt-5'>
                 Proceed To Checkout
               </button>
             </div>

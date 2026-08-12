@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { login, removeErrors, removeSuccess } from "../features/user/userSlice"
 import  toast  from "react-hot-toast"
 
@@ -11,7 +11,9 @@ const Login = () => {
   const [password,setPassword]=useState("")
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const {error, success, isAuthenticated, user, loading }=useSelector((state)=>state.user)
+  const {error, success, isAuthenticated, user, loading }=useSelector((state)=>state.user);
+  const location=useLocation();
+  const redirect= new URLSearchParams(location.search).get("redirect") || "/"
   const loginSubmit=(e)=>{
     e.preventDefault();
     dispatch(login({email,password}))
@@ -36,6 +38,14 @@ const Login = () => {
   }
   },[success,dispatch])
 
+
+  useEffect(()=>{
+    if(isAuthenticated)
+    {
+      navigate(redirect);
+    }
+    
+  },[dispatch,isAuthenticated])
   return (
      <div className="bg-gray-50 flex items-center justify-center min-h-screen">
         <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl">
