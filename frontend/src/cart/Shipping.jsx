@@ -4,14 +4,21 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import {Country,State,City} from "country-state-city"
 import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { saveShippingInfo } from '../features/cart/cartSlice'
+
 
 export const Shipping = () => {
-   const [address,setAddress]=useState("");
-   const [pincode,setPincode]=useState("");
-   const [phoneNumber,setPhoneNumber]=useState("");
-   const [country,setCountry]=useState("");
-   const [state,setState]=useState("");
-   const [city,setCity]=useState("");
+   const {shippingInfo}=useSelector((state)=>state.cart);
+   const dispatch = useDispatch();
+  
+   
+   const [address,setAddress]=useState(shippingInfo.address || "");
+   const [pincode,setPincode]=useState(shippingInfo.pincode || "");
+   const [phoneNumber,setPhoneNumber]=useState(shippingInfo.phoneNumber || "");
+   const [country,setCountry]=useState(shippingInfo.country || "");
+   const [state,setState]=useState(shippingInfo.state || "");
+   const [city,setCity]=useState(shippingInfo.city || "");
 
    const shippingHandler = (e)=>{
     e.preventDefault();
@@ -20,7 +27,9 @@ export const Shipping = () => {
       toast.error("Please fill all the details",{position:"top-center",autoClose:2000})
       return;
     }
-    
+    dispatch(saveShippingInfo({address,pincode,phoneNumber,country,state,city}));
+   
+
    }
 
   return (
