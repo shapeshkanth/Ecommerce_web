@@ -6,12 +6,13 @@ import {Country,State,City} from "country-state-city"
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingInfo } from '../features/cart/cartSlice'
+import { useNavigate } from 'react-router-dom'
 
 
 export const Shipping = () => {
    const {shippingInfo}=useSelector((state)=>state.cart);
    const dispatch = useDispatch();
-  
+   const navigate = useNavigate();
    
    const [address,setAddress]=useState(shippingInfo.address || "");
    const [pincode,setPincode]=useState(shippingInfo.pincode || "");
@@ -28,7 +29,8 @@ export const Shipping = () => {
       return;
     }
     dispatch(saveShippingInfo({address,pincode,phoneNumber,country,state,city}));
-   
+    
+    navigate("/order/confirm");
 
    }
 
