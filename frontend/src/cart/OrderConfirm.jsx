@@ -2,18 +2,32 @@ import React from 'react'
 import PageTitle from '../components/PageTitle'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import CheckoutPath from './CheckoutPath'
 
 export const OrderConfirm = () => {
 
     const {shippingInfo,cartItems} = useSelector((state)=>state.cart);
     const {user} =useSelector((state)=>state.user);
+    const navigate = useNavigate();
 
     const subtotal = cartItems.reduce((acc,item)=>acc + item.price * item.quantity, 0);
     const shippingCharges = shippingInfo.shippingCharges || 0;
     const tax = subtotal * 0.05;
     const total = subtotal + shippingCharges + tax;
+
+    const processToPayment=()=>{
+        const data = {
+            subtotal,
+            shippingCharges,
+            tax,
+            total
+        };
+
+        sessionStorage.setItem("orderItem",JSON.stringify(data));
+        navigate("/process/payment")
+    }
   return (
     <>
     <PageTitle title="Confirm Order"/>
@@ -22,6 +36,7 @@ export const OrderConfirm = () => {
         <div className='container mx-auto px-4'>
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
                 <div className='lg:col-span-2'>
+                    <CheckoutPath activeStep={2}/>
                     <h1 className='text-2xl font-bold text-slate-800 mb-6 mt-4 flex justify-between'>
                         <span>Order Confirmation</span>
                         <Link to="/shipping" className='text-blue-600 hover:text-blue-700 text-sm'>Go Back</Link>
@@ -97,7 +112,7 @@ export const OrderConfirm = () => {
                             <span>Total</span>
                             <span className='font-semibold text-slate-800'>AED {total}</span>
                         </div>
-                        <button className='w-full px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-lg shadow-blue-600/30 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0'>Proceed to payment</button>
+                        <button onClick={processToPayment} className='w-full px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-lg shadow-blue-600/30 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0'>Proceed to payment</button>
                        </div>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingInfo } from '../features/cart/cartSlice'
 import { useNavigate } from 'react-router-dom'
+import CheckoutPath from './CheckoutPath'
 
 
 export const Shipping = () => {
@@ -42,6 +43,7 @@ export const Shipping = () => {
         <div className='container mx-auto px-4 '>
             <div className='max-w-4xl mx-auto'>
                  <div className='bg-white rounded shadow-md p-6'>
+                   <CheckoutPath activeStep={1}/>
                     <h2 className='text-2xl font-bold text-slate-800 mb-6'>Shipping information</h2>
                        <form onSubmit={shippingHandler}>
                      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
