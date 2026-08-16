@@ -2,6 +2,7 @@ import express from "express"
 import product from "./routes/productRoute.js"
 import user from "./routes/userRoute.js"
 import order from "./routes/orderRoute.js"
+import payment from "./routes/paymentRoute.js"
 import errorHandle from "./middleware/errorHandle.js";
 import cookie_parser from "cookie-parser"
 import fileUpload from "express-fileupload";
@@ -14,6 +15,7 @@ app.use(fileUpload())
 
 app.use("/api/v1",product);
 app.use("/api/v1",user);
-app.use("/api/v1",order)
+app.use("/api/v1",order);
+app.use("/api/v1",payment);
 app.use(errorHandle)
 export default app
