@@ -19,6 +19,7 @@ import { Cart } from './cart/Cart';
 import { Shipping } from './cart/Shipping';
 import { OrderConfirm } from './cart/OrderConfirm';
 import { Payment } from './cart/Payment';
+import { PaymentSuccess } from './cart/PaymentSuccess';
 
 
 const App = ()=>{
@@ -51,9 +52,10 @@ dispatch(getProfile())
         <Route path="/cart" element={<Cart/>} />
         <Route path="/shipping" element={<ProtectedRoute element={<Shipping/>}/>}/>
         <Route path="/order/confirm" element={<ProtectedRoute element={<OrderConfirm/>}/>}/>
-         <Route path="/process/payment" element={<ProtectedRoute element={<Payment/>}/>}  />
+        <Route path="/process/payment" element={<ProtectedRoute element={<Payment/>}/>}  />
+        <Route path="/PaymentSuccess" element={<ProtectedRoute element={<PaymentSuccess/>}/>}  />
 
-      </Routes>
+      </Routes> 
     </BrowserRouter>
     
   )

@@ -29,3 +29,20 @@ export const sendApiKey = async (req,res)=>{
     })
 
 }
+
+export const verifyPayment = async (req,res,next)=>{
+
+    const {paymentIntentId}=req.params;
+    try {
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
+
+        res.status(200).json({
+            success:true,
+            status:paymentIntent.status,
+            paymentIntentId:paymentIntent.id,
+        })
+        
+    } catch (error) {
+        return next(new ErrorHandler(400, error.message));
+    }
+}
