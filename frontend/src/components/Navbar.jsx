@@ -54,7 +54,12 @@ const Navbar = ()=>{
                 </form>
                 <Link to='/cart' className='relative'>
                 <ShoppingCart/>
-                <span className='absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-4 h-4 rounded-full flex items-center justify-center'>{cartItems.length}</span>
+                {cartItems.length>0?(
+                     <span className='absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-4 h-4 rounded-full flex items-center justify-center'>{cartItems.length}</span>
+                ):(
+                    <span></span>
+                )}
+               
                 </Link>
                 
                 {!isAuthenticated ? (

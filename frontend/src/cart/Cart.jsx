@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PageTitle from '../components/PageTitle';
 import Navbar from '../components/Navbar';
@@ -14,7 +13,7 @@ export const Cart = () => {
     const navigate = useNavigate();
     const {error,loading, success, cartItems, message}=useSelector((state)=>state.cart);
     const subTotal=cartItems.reduce((acc,item)=>acc+(item.price*item.quantity),0);
-    const tax=subTotal*0.18;
+    const tax=Number((subTotal*0.05).toFixed(2));
     const shippingCharges=cartItems.length===0 ? 0: (subTotal>500 ? 0 : 50);
     const Total =subTotal+tax+shippingCharges;
 

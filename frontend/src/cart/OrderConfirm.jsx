@@ -14,7 +14,7 @@ export const OrderConfirm = () => {
 
     const subtotal = cartItems.reduce((acc,item)=>acc + item.price * item.quantity, 0);
     const shippingCharges = shippingInfo.shippingCharges || 0;
-    const tax = subtotal * 0.05;
+    const tax = Number((subtotal * 0.05).toFixed(2));
     const total = subtotal + shippingCharges + tax;
 
     const processToPayment=()=>{
