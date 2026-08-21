@@ -51,9 +51,9 @@ dispatch(getProfile())
         <Route path="/password/forget" element={<ForgetPassword/>}/>
         <Route path="/resetPassword/:token" element={<ResetPassword/>} />
         <Route path="/cart" element={<Cart/>} />
-        <Route path="/shipping" element={<ProtectedRoute element={<Shipping/>}/>}/>
-        <Route path="/order/confirm" element={<ProtectedRoute element={<OrderConfirm/>}/>}/>
-        <Route path="/process/payment" element={<ProtectedRoute element={<Payment/>}/>}  />
+        <Route path="/shipping" element={<ProtectedRoute element={<Shipping/>} cartRequired={true}/>}/>
+        <Route path="/order/confirm" element={<ProtectedRoute element={<OrderConfirm/>} cartRequired={true}/>}/>
+        <Route path="/process/payment" element={<ProtectedRoute element={<Payment/>} cartRequired={true}/>}  />
         <Route path="/PaymentSuccess" element={<ProtectedRoute element={<PaymentSuccess/>}/>}  />
         <Route path="/order/user" element={<ProtectedRoute element={<MyOrders/>}/>}/>
 
