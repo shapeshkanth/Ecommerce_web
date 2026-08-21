@@ -85,7 +85,7 @@ const Navbar = ()=>{
                             <Link to="/profile" onClick={()=>setProfileDropdownOpen(false)} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
                               My Profile
                             </Link>
-                            <Link to="/orders" onClick={()=>setProfileDropdownOpen(false)} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+                            <Link to="/order/user" onClick={()=>setProfileDropdownOpen(false)} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
                             My Orders
                             </Link>
                             <Link to="/Settings" onClick={()=>setProfileDropdownOpen(false)} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
@@ -140,7 +140,7 @@ const Navbar = ()=>{
                           <Link to="/profile" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>
                               My Profile
                             </Link>
-                            <Link to="/orders" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>
+                            <Link to="/order/user" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>
                             My Orders
                             </Link>
                             <Link to="/Settings" onClick={()=>setOpen(false)} className='text-gray-700 hover:text-blue-600 transition font-semibold'>

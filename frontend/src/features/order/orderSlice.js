@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
-
 //Create Order
 
 export const createOrder = createAsyncThunk("create/order",async(orderData,{rejectWithValue})=>{
@@ -18,6 +16,17 @@ return data;
 } catch (error) {
     return rejectWithValue(error.response?.data || "An error occurred while creating order")
 }
+})
+
+// get all orders
+export const AllOrders = createAsyncThunk("user/AllOrders",async (_,{rejectWithValue})=>{
+  try {
+    const {data}=await axios.get("/api/v1/allOrder/user");
+    return data;
+    
+  } catch (error) {
+    return rejectWithValue(error.response?.message || "An error occurred while fetching orders");
+  }
 })
 
 const orderSlice = createSlice({
@@ -51,6 +60,22 @@ const orderSlice = createSlice({
      }).addCase(createOrder.rejected,(state,action)=>{
        state.loading=false;
        state.error=action.payload?.message || "Order creation failed";
+     })
+
+     builder.addCase(AllOrders.pending,(state)=>{
+      state.loading=true;
+      state.error=null;
+      state.success=false;
+
+     }).addCase(AllOrders.fulfilled,(state,action)=>{
+       state.error=null;
+       state.loading=false;
+       state.orders=action.payload.orders;
+       state.success=action.payload.success;
+     }).addCase(AllOrders.rejected,(state,action)=>{
+      state.loading=false;
+      state.error=action.payload?.message || "Failed to fetch order details";
+
      })
     }
 
