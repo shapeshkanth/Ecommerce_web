@@ -29,6 +29,20 @@ export const AllOrders = createAsyncThunk("user/AllOrders",async (_,{rejectWithV
   }
 })
 
+//get sindle order details
+
+export const sindleOrderDetails = createAsyncThunk("order/details",async (orderId,{rejectWithValue})=>{
+  try {
+
+    const {data} = await axios.get(`/api/v1/getOrderDetails/${orderId}`);
+    return data;
+    
+  } catch (error) {
+    return rejectWithValue(error.response?.data || "Failed to fetch single order details");
+  }
+
+})
+
 const orderSlice = createSlice({
     name:"order",
     initialState:{
@@ -76,6 +90,22 @@ const orderSlice = createSlice({
       state.loading=false;
       state.error=action.payload?.message || "Failed to fetch order details";
 
+     })
+
+     builder.addCase(sindleOrderDetails.pending,(state)=>{
+        state.loading=true;
+        state.error=null;
+        state.success=false;
+     }).addCase(sindleOrderDetails.fulfilled,(state,action)=>{
+        state.loading=false;
+        state.error=null;
+        state.success=action.payload.success;
+        state.order=action.payload.order;
+
+     }).addCase(sindleOrderDetails.rejected,(state,action)=>{
+        state.loading=false;
+        state.success=false;
+        state.error=action.payload?.message || "Failed to fetch single order details";
      })
     }
 
