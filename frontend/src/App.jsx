@@ -23,6 +23,7 @@ import { PaymentSuccess } from './cart/PaymentSuccess';
 import { MyOrders } from './orders/MyOrders';
 import { OrderDetails } from './orders/OrderDetails';
 import { Dashboard } from './admin/Dashboard';
+import { ProductList } from './admin/ProductList';
 
 
 const App = ()=>{
@@ -60,6 +61,8 @@ dispatch(getProfile())
         <Route path="/order/user" element={<ProtectedRoute element={<MyOrders/>}/>}/>
         <Route path="/order/:id" element={<ProtectedRoute element={<OrderDetails/>}/>}/>
         <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard/>} adminOnly={true}/>}/>
+        <Route path="/admin/products" element={<ProtectedRoute element={<ProductList/>} adminOnly={true}/>}/>
+
 
       </Routes> 
     </BrowserRouter>
