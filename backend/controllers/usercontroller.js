@@ -350,7 +350,40 @@ export const viewUserReview = async (req,res,next)=>{
   })
 }
 
+export const adminGetAllReviews = async (req,res,next)=>{
+
+  const products = await product.find();
+  let allReviews = [];
+  products.forEach((pro)=>{
+    pro.reviews.forEach((review)=>{
+          allReviews.push({
+          ...review.toObject(),
+          productName:pro.name,
+          productImage : pro.image[0]?.url,
+          productId:pro._id
+
+        })
+   })
+   
+ });
+  
+ allReviews.sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt))
+
+     res.status(200).json({
+    success:true,
+    reviews:allReviews
+ 
+  })
+
+
+
+}
+
 export const adminViewAllProduct = async (req,res,next)=>{
+  const resultPerPage = 8;
+  const productCount = await product.countDocuments();
+  const outOfStock = await product.countDocuments({stock:0});
+
   const Product = await product.find()
   if(!Product)
   {
@@ -358,7 +391,10 @@ export const adminViewAllProduct = async (req,res,next)=>{
   }
   res.json({
     success :true,
-    Product
+    Product,
+    productCount,
+    outOfStock,
+    resultPerPage
   })
 }
 
