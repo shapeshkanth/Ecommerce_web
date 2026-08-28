@@ -5,6 +5,7 @@ import { sendToken } from "../helper/jwtToken.js"
 import { sendEmail } from "../helper/sendEmail.js"
 import { v2 as cloudinary} from "cloudinary"
 import crypto from "crypto"
+import ProductListing from "../helper/ProductListing.js"
 export const createUser = async (req,res,next)=>{
  //console.log(req.body)
  const {name, email, password,avatar} = req.body
@@ -383,8 +384,8 @@ export const adminViewAllProduct = async (req,res,next)=>{
   const resultPerPage = 8;
   const productCount = await product.countDocuments();
   const outOfStock = await product.countDocuments({stock:0});
-
-  const Product = await product.find()
+  const allProduct = new ProductListing(product.find(),req.query).pagination(resultPerPage)
+  const Product = await allProduct.query;
   if(!Product)
   {
     return next(new ErrorHandler(400,"Product doesn't exits"))

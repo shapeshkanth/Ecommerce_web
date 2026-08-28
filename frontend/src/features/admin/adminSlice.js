@@ -15,6 +15,7 @@ export const getAllOrder = createAsyncThunk("admin/orders",async (_,{rejectWithV
 export const adminGetProducts = createAsyncThunk("admin/adminProducts",async (page=1,{rejectWithValue})=>{
 try {
     const {data} = await axios.get(`/api/v1/adminViewProducts?page=${page}`);
+   
     return data;
 } catch (error) {
     return rejectWithValue(error.response?.data || "Failed to fetch product by admin.")
@@ -97,7 +98,7 @@ const adminSlice = createSlice({
             state.error=null;
             state.loading=false;
             state.success=action.payload.success;
-            state.products=action.payload.product;
+            state.products=action.payload.Product;
             state.resultPerPage=action.payload.resultPerPage;
             state.outOfStock = action.payload.outOfStock;
             state.productCount=action.payload.productCount;
