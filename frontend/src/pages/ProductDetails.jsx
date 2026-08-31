@@ -21,6 +21,7 @@ const ProductDetails = () => {
     const [userRating,setUserRating] = useState(0)
     const [quantity, setQuantity]=useState(1);
     const { id } = useParams();
+    const [selectedImage,setSelectedImage]= useState(0);
     useEffect(()=>{
         if(id)
         {
@@ -71,8 +72,15 @@ const addToCartHandler =()=>{
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-8">
             <div>
                 <div className="aspect-square overflow-hidden rounded-xl">
-                    <img src={product?.image[0].url} alt={product?.name} className="w-full h-full object-cover transition-transform hover:scale-105 duration-700" title={product?.name} />
+                    <img src={product?.image[selectedImage].url} alt={product?.name} className="w-full h-full object-cover transition-transform hover:scale-105 duration-700" title={product?.name} />
                 </div>
+                {product?.image?.length > 1  && (<div className="flex gap-4 mt-6 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-200">
+                          {product?.image.map((img,index)=>(
+                            <button key={index} onClick={()=>setSelectedImage(index)} className={`relative w-20 h-20 rounded-lg overflow-hidden cursor-pointer border-2 shrink-0 transition-all ${selectedImage === index ? "border-amber-500 scale-105 shadow-md ring-4 ring-amber-50" : "border-transparent opacity-70 hover:opacity-100"} `}>
+                                <img src={img.url} alt={`Thumbnail ${index}`} className="w-full h-full object-cover" />
+                            </button>
+                          ))}
+                             </div>)}
             </div>
             <div className="flex flex-col">
                 <h3 className="text-3xl font-semibold text-gray-900 mb-2">{product?.name}</h3>
