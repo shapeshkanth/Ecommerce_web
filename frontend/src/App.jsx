@@ -24,6 +24,9 @@ import { MyOrders } from './orders/MyOrders';
 import { OrderDetails } from './orders/OrderDetails';
 import { Dashboard } from './admin/Dashboard';
 import { ProductList } from './admin/ProductList';
+import { CreateProduct } from './admin/createProduct';
+
+
 
 
 const App = ()=>{
@@ -62,6 +65,9 @@ dispatch(getProfile())
         <Route path="/order/:id" element={<ProtectedRoute element={<OrderDetails/>}/>}/>
         <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard/>} adminOnly={true}/>}/>
         <Route path="/admin/products" element={<ProtectedRoute element={<ProductList/>} adminOnly={true}/>}/>
+        <Route path="/admin/create/product" element={<ProtectedRoute element={<CreateProduct/>} adminOnly={true}/>}/>
+
+
 
 
       </Routes> 

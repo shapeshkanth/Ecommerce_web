@@ -16,7 +16,7 @@ export const Sidebar = () => {
     },
     {
         title:"Add Product",
-        path:"/admin/product/create",
+        path:"/admin/create/product",
         icon:<PlusCircle size={20}/>
     },
     {
