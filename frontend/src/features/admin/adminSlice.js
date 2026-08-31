@@ -6,7 +6,7 @@ export const getAllOrder = createAsyncThunk("admin/orders",async (_,{rejectWithV
         const {data} = await axios.get("/api/v1/admin/allOrders");
         return data;
     } catch (error) {
-        return rejectWithValue(error.response?.message || "Failed to fetch orders");
+        return rejectWithValue(error.response?.data || "Failed to fetch orders");
     }
 
 })
@@ -30,7 +30,7 @@ try {
     return rejectWithValue(error.response?.data || "Failed to fetch Users by admin.")
 }
 })
-
+//fetch all user reviews
 export const adminGetAllReviews = createAsyncThunk("admin/allReviews",async (_,{rejectWithValue})=>{
 try {
     const {data} = await axios.get(`/api/v1/admin/all-reviews`);
@@ -38,6 +38,22 @@ try {
 } catch (error) {
     return rejectWithValue(error.response?.data || "Failed to fetch reviews by admin.")
 }
+})
+
+export const createProduct = createAsyncThunk("admin/create/product",async (productData,{rejectWithValue})=>{
+    try {
+        const config={
+            headers:{
+                "Content-Type":"multipart/form-data",
+            }
+        }
+
+        const {data} = await axios.post("/api/v1/addProduct",productData,config);
+        return data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Product creation failed");
+    }
+
 })
 
 const adminSlice = createSlice({
@@ -51,7 +67,7 @@ const adminSlice = createSlice({
         users:[],
         outOfStock:0,
         reviews:[],
-        
+        product:{},
         success:false,
         loading:false,
         error:null,
@@ -137,6 +153,21 @@ const adminSlice = createSlice({
         }).addCase(adminGetAllReviews.rejected,(state,action)=>{
             state.loading=false;
             state.error=action.payload?.message || "Failed to fetch users by admin.";
+        })
+
+        builder.addCase(createProduct.pending,(state)=>{
+          state.loading=true;
+          state.success=false;
+          state.error=null;
+        }).addCase(createProduct.fulfilled,(state,action)=>{
+          state.loading=false;
+          state.error=null;
+          state.success=action.payload.success;
+          state.product= action.payload.product;
+
+        }).addCase(createProduct.rejected,(state,action)=>{
+          state.loading=false;
+          state.error=action.payload?.message || "Product creation failed";
         })
 
     }

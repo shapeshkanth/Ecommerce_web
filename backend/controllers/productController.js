@@ -1,6 +1,7 @@
 import ErrorHandler from "../helper/ErrorHandler.js"
 import ProductListing from "../helper/ProductListing.js"
 import product from "../models/productModel.js"
+import { v2 as cloudinary} from "cloudinary"
 
 export const allproduct =  async (req,res,next) =>{
     const params = req.query;
@@ -47,6 +48,28 @@ export const allproduct =  async (req,res,next) =>{
  }
 
  export const addproduct = async (req,res)=>{
+
+    let image = [];
+    if(typeof req.body.image ==="string")
+    {
+        image.push(req.body.image)
+    }else{
+        image = req.body.image;
+    }
+
+   const imageLinks=[];
+
+    for(let i=1; i<image.length; i++)
+    {
+        const result = await cloudinary.uploader.upload(image[i],{folder : "products"});
+
+        imageLinks.push({
+          public_id:result.public_id,
+          url:result.secure_url
+        })
+        
+    }
+    req.body.image=imageLinks;
     req.body.user = req.user.id 
     const products = req.body
     const addproduct = await product.create(products)

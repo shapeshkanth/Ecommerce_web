@@ -4,20 +4,29 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { Sidebar } from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux'
-import { adminGetProducts } from '../features/admin/adminSlice'
+import { adminGetProducts, removeSuccess } from '../features/admin/adminSlice'
 import { ChevronLeft, ChevronRight, Edit, Trash2, TrendingUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export const ProductList = () => {
  
-  const {products,loading,productCount,resultPerPage} = useSelector((state)=>state.admin);
+  const {success,products,loading,productCount,resultPerPage} = useSelector((state)=>state.admin);
   const dispatch = useDispatch();
   const [currentPage,setCurrentPage]=useState(1);
   
+
+
+
   useEffect(()=>{
    dispatch(adminGetProducts(currentPage));
   },[dispatch,currentPage])
 
+  useEffect(()=>{
+    if(success){
+        dispatch(removeSuccess());
+    }
+    
+  },[dispatch,success])
 
   const totalPages=Math.ceil(productCount/resultPerPage);
   return (
