@@ -4,13 +4,14 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { Sidebar } from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux'
-import { adminGetProducts, removeSuccess } from '../features/admin/adminSlice'
-import { ChevronLeft, ChevronRight, Edit, Trash2, TrendingUp } from 'lucide-react'
+import { adminGetProducts, deleteProduct, removeSuccess } from '../features/admin/adminSlice'
+import { ChevronLeft, ChevronRight, Edit, Loader2, Trash2, TrendingUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 export const ProductList = () => {
  
-  const {success,products,loading,productCount,resultPerPage} = useSelector((state)=>state.admin);
+  const {success,products,loading,productCount,resultPerPage,deleting} = useSelector((state)=>state.admin);
   const dispatch = useDispatch();
   const [currentPage,setCurrentPage]=useState(1);
   
@@ -29,6 +30,25 @@ export const ProductList = () => {
   },[dispatch,success])
 
   const totalPages=Math.ceil(productCount/resultPerPage);
+
+   const handleDelete = (productId)=>{
+      const isConfirmed = window.confirm("Are you sure you want to delete this product?")
+      if(isConfirmed)
+      {
+        dispatch(deleteProduct(productId)).then((action) =>{
+          if(action.type === "admin/deleteProduct/fulfilled")
+          {
+            toast.success("Product Deleted Successfully", {position: "top-center", autoClose:3000});
+            if(products.length===1 && currentPage > 1)
+            {
+              setCurrentPage(currentPage-1);
+            }else{
+              dispatch(fetchAdminProducts(currentPage));
+            }
+          }
+        })
+      }
+  }
   return (
     <div className='min-h-screen bg-gray-50 flex flex-col'>
         <PageTitle title="Admin Dashboard"/>
@@ -98,8 +118,9 @@ export const ProductList = () => {
                               <Link to={`/admin/product/${product._id}`} className='p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors' title='Edit Product'>
                                  <Edit size={18}/>
                               </Link>
-                              <button className='p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors' title='Edit Product'>
-                                <Trash2 size={18}/>
+                              <button disabled={deleting?.[product._id]} onClick={()=>handleDelete(product._id)} className='p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors' title='Edit Product'>
+                                {deleting?.[product._id] ? <Loader2 size={18} className='animate-spin'/> :  <Trash2 size={18}/> }
+                                   
                               </button>
                             </div>
                           </td>

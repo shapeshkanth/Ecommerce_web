@@ -6,7 +6,7 @@ import { ClipboardList, PackageCheck, PackageX, ShoppingBag, Star, TrendingUp, U
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import toast  from "react-hot-toast"
-import { adminGetAllReviews, adminGetProducts, adminGetUsers, getAllOrder, removeErrors } from '../features/admin/adminSlice'
+import { adminGetAllReviews, adminGetProducts, adminGetUsers, getAllOrder, removeErrors, removeSuccess } from '../features/admin/adminSlice'
 
 
 
@@ -25,6 +25,7 @@ export const Dashboard = () => {
   dispatch(adminGetProducts());
   dispatch(adminGetUsers());
   dispatch(adminGetAllReviews());
+  dispatch(removeSuccess());
   },[dispatch])
 
   const DirhamIcon = ({ size = 24 }) => (
