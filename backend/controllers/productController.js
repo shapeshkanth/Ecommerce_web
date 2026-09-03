@@ -59,7 +59,7 @@ export const allproduct =  async (req,res,next) =>{
 
    const imageLinks=[];
 
-    for(let i=1; i<image.length; i++)
+    for(let i=0; i<image.length; i++)
     {
         const result = await cloudinary.uploader.upload(image[i],{folder : "products"});
 
@@ -82,20 +82,53 @@ export const allproduct =  async (req,res,next) =>{
  }
 
  export const updateproduct = async (req,res,next)=>{
-    const pro_id = req.params.id
-    const newproduct = req.body
-    const updateproduct = await product.findByIdAndUpdate(pro_id,newproduct,{new:true})
-    //console.log("Product Updated")
-    if(!updateproduct)
-    {
-        return next(new ErrorHandler(404,"product not found"))
-    }
-    return res.json({
-        success:true,
-        message:"Product updated",
-        updateproduct
-    })
+   let product_Details = await product.findById(req.params.id);
+ 
+   if(!product_Details)
+   {
+    return next(new ErrorHandler(404,"Product not found"));
+   }
+   let images = [];
+   
+   if (req.body.image) {
+      if(typeof req.body.image === "string")
+      {
+        images.push(req.body.image);
+      }else{
+        images = req.body.image;
+      }
 
+  }
+   if(images.length> 0)
+   {
+    
+    for(let i=0; i<product_Details.image.length; i++)
+    {
+      await cloudinary.uploader.destroy(product_Details.image[i].public_id);
+    }
+
+    const imageLinks = [];
+    for(let i=0; i<images.length; i++)
+    {
+      const result = await cloudinary.uploader.upload(images[i],{
+        folder : "products"
+      });
+      imageLinks.push({
+        public_id:result.public_id,
+        url:result.secure_url
+      });
+    }
+ req.body.image = imageLinks;
+   }
+
+   product_Details=await product.findByIdAndUpdate(req.params.id,req.body,{new:true,
+    runValidators:true
+   });
+
+   res.status(200).json({
+    success:true,
+    product_Details
+   })
  }
 
  export const deleteproduct = async (req,res,next)=>{

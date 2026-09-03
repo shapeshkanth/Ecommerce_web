@@ -13,7 +13,7 @@ import { adminGetAllReviews, adminGetProducts, adminGetUsers, getAllOrder, remov
 export const Dashboard = () => {
 
   const dispatch = useDispatch();
-  const {error,orders,totalAmount,outOfStock,productCount,loading,users,reviews} = useSelector((state)=>state.admin);
+  const {error,orders,totalAmount,outOfStock,productCount,loading,users,reviews,success } = useSelector((state)=>state.admin);
 
   useEffect(()=>{
     if(error)
@@ -21,12 +21,19 @@ export const Dashboard = () => {
       toast.error(error,{position:"top-center",autoClose:3000});
       dispatch(removeErrors());
     }
+   
   dispatch(getAllOrder());
   dispatch(adminGetProducts());
   dispatch(adminGetUsers());
   dispatch(adminGetAllReviews());
   dispatch(removeSuccess());
   },[dispatch])
+
+  
+ if(success){
+      dispatch(removeSuccess());
+    }
+ 
 
   const DirhamIcon = ({ size = 24 }) => (
   <span
