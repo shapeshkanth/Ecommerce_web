@@ -31,6 +31,16 @@ try {
 }
 })
 
+export const addUserReview = createAsyncThunk("user/new/userReview",async (review,{rejectWithValue})=>{
+    try {
+        const {data}=await axios.put("/api/v1/userReview",review);
+        return data;
+        
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "user review adding failed");
+    }
+})
+
 const productSlice = createSlice({
    name : "product",
    initialState:{
@@ -40,7 +50,10 @@ const productSlice = createSlice({
     perPage:4,
     TotalPages:0,
     loading:false,
-    error :null
+    error :null,
+    status:false,
+    message: null,
+    
    },
    reducers:{
     removeErrors: (state)=>{
@@ -74,6 +87,22 @@ const productSlice = createSlice({
           state.error = null;
           state.product = action.payload.singleproduct
        }).addCase(getProductDetails.rejected,(state,action)=>{
+          state.loading=false;
+          state.error = action.payload || "Something went wrong.."
+       })
+
+       
+       builder.addCase(addUserReview.pending,(state)=>{
+          state.loading=true;
+          state.error = null;
+          state.status=false;
+       }).addCase(addUserReview.fulfilled,(state,action)=>{
+          state.loading = false;
+          state.error = null;
+          state.status=action.payload.success;
+          state.message=action.payload.message;
+          state.product = action.payload.Product;
+       }).addCase(addUserReview.rejected,(state,action)=>{
           state.loading=false;
           state.error = action.payload || "Something went wrong.."
        })

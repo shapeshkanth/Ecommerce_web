@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { Calendar, MessageSquare, Minus, PackageCheck, PackageX, Plus, ShoppingCart } from "lucide-react"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react"
-import { getProductDetails, removeErrors } from "../features/products/productSlice"
+import { addUserReview, getProductDetails, removeErrors } from "../features/products/productSlice"
 import Loading from "../components/Loading"
 import toast from "react-hot-toast"
 import { calculateDiscount, formatDate } from "../utils/formatter"
@@ -16,9 +16,10 @@ import { addToCartItem, removeSuccess } from "../features/cart/cartSlice"
 
 const ProductDetails = () => {
     const dispatch = useDispatch();
-    const {product, error, loading} = useSelector((state)=>state.product);
-    const {loading:cartLoading,error:cartError,success,message,cartItems}= useSelector((state)=>state.cart)
+    const {product, error, loading,message:productMessage,success:productSuccess} = useSelector((state)=>state.product);
+    const {loading:cartLoading,error:cartError,success,message,cartItems}= useSelector((state)=>state.cart);
     const [userRating,setUserRating] = useState(0)
+    const [userReview,setUserReview] = useState("");
     const [quantity, setQuantity]=useState(1);
     const { id } = useParams();
     const [selectedImage,setSelectedImage]= useState(0);
@@ -62,6 +63,28 @@ const decreaseQuantity=()=>{
 
 const addToCartHandler =()=>{
     dispatch(addToCartItem({id,quantity}));
+}
+
+const handleAddReview = (e)=>{
+    e.preventDefault();
+    if(userRating===0 || !userReview){
+        toast.error("Rating or Review can not be empty",{position:"top-center",autoClose:3000});
+        dispatch(removeErrors());
+    }else{
+
+        
+    const review = {
+        rating:userRating,
+        comment:userReview,
+        productId:product._id
+    }
+
+    dispatch(addUserReview(review));
+    setUserReview("");
+    setUserRating('0');
+    }
+
+
 }
 
   return( loading?(<Loading/>):(
@@ -124,18 +147,17 @@ const addToCartHandler =()=>{
                                 Add to Cart
                             </button>
                 </div>)}
-             </div>
-             <form className="bg-slate-100 p-6 rounded-2xl border border-slate-100">
+                </div>
+             <form onSubmit={handleAddReview} className="bg-slate-100 p-6 rounded-2xl border border-slate-100">
                 <h3 className="flex items-center gap-2 text-md font-bold mb-4 text-slate-800 uppercase tracking-tight ">
                     <MessageSquare size={19} className="text-blue-500"/>
                     Share your feedback
                 </h3>
                 <div className="mb-4">
-                    <Rating value={0} disabled={false} onRatingChange={(r)=>setUserRating(r)}/>
+                    <Rating value={userRating} disabled={false} onRatingChange={(r)=>setUserRating(r)}/>
                 </div>
-                <textarea placeholder="How was the product quality and delivery.." className="w-full p-4 border-2 border-white focus:border-amber-300 focus-ring-0 outline-none min-h-24 text-sm bg-slate-50 rounded-xl shadow-sm transition-all"></textarea>
-                <button className="nt-4 w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg shadow-slate-200">Post Review</button>
-
+                <textarea value={userReview} onChange={(e)=>setUserReview(e.target.value)} placeholder="How was the product quality and delivery.." className="w-full p-4 border-2 border-white focus:border-amber-300 focus-ring-0 outline-none min-h-24 text-sm bg-slate-50 rounded-xl shadow-sm transition-all"></textarea>
+                <button disabled={loading} type="submit" className="nt-4 w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg shadow-slate-200">Post Review</button>
              </form>
             </div>
         
@@ -149,14 +171,14 @@ const addToCartHandler =()=>{
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 mt-2 ">
             {product?.reviews.map((review,index)=>(
-                <div key={index} className="bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:border-amber-100 transition-colors group">
+                <div key={index} className="mt-3 bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:border-amber-100 transition-colors group">
                     <div className="flex justify-between items-start mb-6">
                         <div className="flex items-center gap-4">
                                 <div className="w-14 h-14 rounded-full overflow-hidden ring-4 ring-gray-50 group-hover:ring-amber-50 transition-all">
                                     <img src={review?.avatar} alt={review?.name}  className="h-full w-full  object-cover"/>
                                 </div>
                              <div>
-                                <h4 className="font-bold text-gray-900 text-lg">{review?.name}</h4>
+                                <h4 className="font-bold text-gray-900 text-lg ">{review?.name}</h4>
                                     <div className="mt-1">
                                     <Rating value={review?.rating} disabled={true}/>
                                     </div>
@@ -168,7 +190,7 @@ const addToCartHandler =()=>{
                         </div>
                     </div>                 
              
-                <p>"{review?.comment}"</p>
+                <p className="text-shadow-md">"{review?.comment}"</p>
             </div>
             ))}
             </div>
