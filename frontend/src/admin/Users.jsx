@@ -5,7 +5,7 @@ import { Sidebar } from './Sidebar'
 import { ChevronLeft, ChevronRight, Edit, Trash2, Loader2, Users as UserIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { adminGetUsers, deleteUser} from '../features/admin/adminSlice'
+import { adminGetUsers, deleteUser, removeSuccess} from '../features/admin/adminSlice'
 import toast from 'react-hot-toast'
 
 export const Users = () => {
@@ -28,6 +28,8 @@ export const Users = () => {
           if(action.type === "admin/deleteUser/fulfilled")
           {
             toast.success("User Deleted Successfully", {position: "top-center", autoClose:3000});
+            dispatch(removeSuccess());
+            
             if(users.length === 1 && currentPage > 1)
             {
               setCurrentPage(currentPage-1);
@@ -107,7 +109,7 @@ export const Users = () => {
                           </td>
                           <td className='px-6 py-4 text-right'>
                             <div className='flex items-center justify-end gap-2'>
-                              <Link to={`/user/${user._id}`} target="_blank" className='p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors' title='Edit User'>
+                              <Link to={`/admin/editUser/${user._id}`} className='p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors' title='Edit User'>
                                  <Edit size={18}/>
                               </Link>
                               <button></button>

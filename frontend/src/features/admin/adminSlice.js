@@ -85,7 +85,7 @@ export const deleteProduct = createAsyncThunk("admin/deleteProduct",async (produ
         return rejectWithValue(error.response?.data || "Product Deletion failed");
     }
 })
-
+//delete user
 export const deleteUser = createAsyncThunk("admin/deleteUser",async (UserId,{rejectWithValue})=>{
     try {
         const {data} = await axios.delete(`/api/v1/admin/deleteUser/${UserId}`);
@@ -95,7 +95,17 @@ export const deleteUser = createAsyncThunk("admin/deleteUser",async (UserId,{rej
         return rejectWithValue(error.response?.data || "User Deletion failed");
     }
 })
+//update user role
 
+export const updateUserRole = createAsyncThunk("admin/updateUser",async ({UserId,role},{rejectWithValue})=>{
+    try {
+        const {data} = await axios.put(`/api/v1/admin/userRole/${UserId}`,{ role });
+        return data;
+
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "User UpdateRole failed");
+    }
+})
 
 
 const adminSlice = createSlice({
@@ -115,6 +125,7 @@ const adminSlice = createSlice({
         product:{},
         deleting:{},
         deletingUsers: {},
+        user:null,
 
         success:false,
         loading:false,
@@ -181,7 +192,6 @@ const adminSlice = createSlice({
         }).addCase(adminGetUsers.fulfilled,(state,action)=>{
            state.error=null;
            state.loading=false;
-           state.success=action.payload.success;
            state.users=action.payload.user;
            state.userCount = action.payload.TotalUsers;
            state.userResultPerPage = action.payload.perPage;
@@ -260,13 +270,27 @@ const adminSlice = createSlice({
          state.users = state.users.filter(
               (user) => user._id !== userId
           );
-         state.success = action.payload.success;
          state.message = action.payload.message;
 
         }).addCase(deleteUser.rejected,(state,action)=>{
           const userId = action.meta.arg;
           state.deletingUsers[userId] = false;     
           state.error=action.payload?.message || "User deletion failed";
+        })
+
+         builder.addCase(updateUserRole.pending,(state)=>{
+          state.loading=true;
+          state.error=null;
+         
+        }).addCase(updateUserRole.fulfilled,(state,action)=>{
+          state.loading=false;
+          state.error=null;
+          state.success=action.payload.success;
+          state.user=action.payload.user;
+
+        }).addCase(updateUserRole.rejected,(state,action)=>{
+          state.loading=false;
+          state.error=action.payload?.message || "UserRole update failed";
         })
         
 
