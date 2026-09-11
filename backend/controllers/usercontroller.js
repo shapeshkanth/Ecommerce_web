@@ -233,11 +233,30 @@ if(newPassword!==confirmPassword)
 }
 
 export const getAllUser = async (req,res)=>{
-  const user = await User.find()
+  const params = req.query;
+  const perPage = 8;
+  const UserList = new ProductListing(User.find(),params);
+
+    const TotalUsers = await User.countDocuments()
+    const TotalPages = Math.ceil(TotalUsers/perPage)
+
+    const page = Number(req.query.page) || 1
+    
+    if(TotalPages <=0 || page < 1 || page > TotalPages )
+    {
+        return next(new ErrorHandler(404,"User does not exist"));
+    }
+
+    UserList.pagination(perPage);
+    const user = await UserList.query;
   res.status(200).json({
     success:true,
-    user
-  })
+    user,
+    page,
+    TotalPages,
+    TotalUsers,
+    perPage,
+})
 
 }
 
@@ -264,7 +283,8 @@ export const deleteSingleUser = async (req,res,next)=>{
   await User.findByIdAndDelete(id)
   res.status(200).json({
     success:true,
-    message:"user deleted successfully"
+    message:"user deleted successfully",
+    userId:id
   })
 }
 

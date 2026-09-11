@@ -22,9 +22,9 @@ try {
 }
 })
 //fetch all users
-export const adminGetUsers = createAsyncThunk("admin/Users",async (_,{rejectWithValue})=>{
+export const adminGetUsers = createAsyncThunk("admin/Users",async (page=1,{rejectWithValue})=>{
 try {
-    const {data} = await axios.get(`/api/v1/admin/user`);
+    const {data} = await axios.get(`/api/v1/admin/user?page=${page}`);
     return data;
 } catch (error) {
     return rejectWithValue(error.response?.data || "Failed to fetch Users by admin.")
@@ -74,6 +74,7 @@ export const updateProduct = createAsyncThunk("admin/update/product",async ({id,
 
 })
 
+//delete product
 
 export const deleteProduct = createAsyncThunk("admin/deleteProduct",async (productId,{rejectWithValue})=>{
     try {
@@ -85,6 +86,18 @@ export const deleteProduct = createAsyncThunk("admin/deleteProduct",async (produ
     }
 })
 
+export const deleteUser = createAsyncThunk("admin/deleteUser",async (UserId,{rejectWithValue})=>{
+    try {
+        const {data} = await axios.delete(`/api/v1/admin/deleteUser/${UserId}`);
+        return data;
+
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "User Deletion failed");
+    }
+})
+
+
+
 const adminSlice = createSlice({
     name:"admin",
     initialState:{
@@ -94,10 +107,14 @@ const adminSlice = createSlice({
         productCount:0,
         resultPerPage:0,
         users:[],
+        userCount: 0,
+        userResultPerPage: 0,
+        userTotalPages: 0,
         outOfStock:0,
         reviews:[],
         product:{},
         deleting:{},
+        deletingUsers: {},
 
         success:false,
         loading:false,
@@ -166,6 +183,9 @@ const adminSlice = createSlice({
            state.loading=false;
            state.success=action.payload.success;
            state.users=action.payload.user;
+           state.userCount = action.payload.TotalUsers;
+           state.userResultPerPage = action.payload.perPage;
+           state.userTotalPages = action.payload.TotalPages;
         }).addCase(adminGetUsers.rejected,(state,action)=>{
             state.loading=false;
             state.error=action.payload?.message || "Failed to fetch users by admin.";
@@ -229,7 +249,26 @@ const adminSlice = createSlice({
           state.loading=false;
           state.error=action.payload?.message || "Product update failed";
         })
+        
+        
+        builder.addCase(deleteUser.pending,(state,action)=>{
+         const userId = action.meta.arg;
+         state.deletingUsers[userId] = true;
+        }).addCase(deleteUser.fulfilled,(state,action)=>{
+         const userId = action.payload.userId;
+         state.deletingUsers[userId] = false;
+         state.users = state.users.filter(
+              (user) => user._id !== userId
+          );
+         state.success = action.payload.success;
+         state.message = action.payload.message;
 
+        }).addCase(deleteUser.rejected,(state,action)=>{
+          const userId = action.meta.arg;
+          state.deletingUsers[userId] = false;     
+          state.error=action.payload?.message || "User deletion failed";
+        })
+        
 
     }
 
