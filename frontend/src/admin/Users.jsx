@@ -112,7 +112,7 @@ export const Users = () => {
                               <Link to={`/admin/editUser/${user._id}`} className='p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors' title='Edit User'>
                                  <Edit size={18}/>
                               </Link>
-                              <button></button>
+                              
                                <button disabled={deletingUsers?.[user._id]} onClick={()=>handleDelete(user._id)} className={`p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors`} title='Edit User'>
                                 {deletingUsers?.[user._id]
                                     ? <Loader2 size={18} className="animate-spin" />

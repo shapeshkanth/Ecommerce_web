@@ -51,7 +51,7 @@ export const ProductList = () => {
   }
   return (
     <div className='min-h-screen bg-gray-50 flex flex-col'>
-        <PageTitle title="Admin Dashboard"/>
+        <PageTitle title="Admin Product"/>
         <Navbar/>
         <main className='flex-1 flex overflow-hidden'>
           <Sidebar/>

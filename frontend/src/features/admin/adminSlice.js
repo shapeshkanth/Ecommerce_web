@@ -95,6 +95,7 @@ export const deleteUser = createAsyncThunk("admin/deleteUser",async (UserId,{rej
         return rejectWithValue(error.response?.data || "User Deletion failed");
     }
 })
+
 //update user role
 
 export const updateUserRole = createAsyncThunk("admin/updateUser",async ({UserId,role},{rejectWithValue})=>{
@@ -105,6 +106,16 @@ export const updateUserRole = createAsyncThunk("admin/updateUser",async ({UserId
     } catch (error) {
         return rejectWithValue(error.response?.data || "User UpdateRole failed");
     }
+})
+
+//all orders
+export const allOrders = createAsyncThunk("admin/Orders",async (page=1,{rejectWithValue})=>{
+try {
+    const {data} = await axios.get(`/api/v1/admin/allOrders?page=${page}`);
+    return data;
+} catch (error) {
+    return rejectWithValue(error.response?.data || "Failed to fetch all orders by admin.")
+}
 })
 
 
@@ -126,6 +137,9 @@ const adminSlice = createSlice({
         deleting:{},
         deletingUsers: {},
         user:null,
+        orderResultPerPage:5,
+        orderTotalPages:0,
+
 
         success:false,
         loading:false,
@@ -293,6 +307,21 @@ const adminSlice = createSlice({
           state.error=action.payload?.message || "UserRole update failed";
         })
         
+        builder.addCase(allOrders.pending,(state)=>{
+            state.loading=true;
+            state.error=null;
+            state.success=false;
+
+        }).addCase(allOrders.fulfilled,(state,action)=>{
+           state.error=null;
+           state.loading=false;
+           state.orders=action.payload.orders;
+           state.orderResultPerPage = action.payload.perPage;
+           state.orderTotalPages = action.payload.TotalPages;
+        }).addCase(allOrders.rejected,(state,action)=>{
+            state.loading=false;
+            state.error=action.payload?.message || "Failed to fetch all orders by admin.";
+        })
 
     }
 

@@ -2,6 +2,7 @@ import Order from "../models/orderModel.js"
 import Product from "../models/productModel.js"
 import ErrorHandler from "../helper/ErrorHandler.js"
 import { promises } from "fs"
+import ProductListing from "../helper/ProductListing.js"
 
 
 export const createOrder=async (req,res,next)=>{
@@ -53,16 +54,34 @@ export const getAllOrders = async (req,res,next)=>{
 }
 
 export const allOrders = async (req,res,next)=>{
-    const orders  = await Order.find().populate("user","name email")
+    const params = req.query;
+    const perPage = 8;
+
+    const OrderList = new ProductListing(Order.find(),params);
+
+    const TotalOrders = await Order.countDocuments();
+    const TotalPages = Math.ceil(TotalOrders/perPage);
+
+    const page = Number(req.query.page) || 1
+    if(TotalPages<=0 || page<1 || page>TotalPages)
+    {
+         return next(new ErrorHandler(404,"Orders does not exit"));
+    }
+
+    OrderList.pagination(perPage);
+    const orders = await OrderList.query.populate("user","name email");
+
      if(!orders)
     {
         return next(new ErrorHandler(400,"Orders not found"))
     }
-    let totalamount = 0
+    let totalamount = 0;
     orders.forEach((order)=>totalamount += order.TotalPrice)
     res.json({
         success:true,
         orders,
+        perPage,
+        TotalPages,
         totalamount
     })
 }

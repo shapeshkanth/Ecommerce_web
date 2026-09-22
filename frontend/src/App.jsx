@@ -28,6 +28,7 @@ import { CreateProduct } from './admin/createProduct';
 import { UpdateProduct } from './admin/UpdateProduct';
 import { Users } from './admin/Users';
 import { EditUser } from './admin/EditUser';
+import { Orders } from './admin/Orders';
 
 
 
@@ -72,6 +73,7 @@ dispatch(getProfile())
         <Route path="/admin/product/:id" element={<ProtectedRoute element={<UpdateProduct/>} adminOnly={true}/>}/>
         <Route path="/admin/users" element={<ProtectedRoute element={<Users/>} adminOnly={true}/>}/>
         <Route path='/admin/editUser/:id' element={<ProtectedRoute element={<EditUser/>} adminOnly={true}/>}/>
+        <Route path='/admin/orders' element={<ProtectedRoute element={<Orders/>}  adminOnly={true}/>}/>
 
 
 
