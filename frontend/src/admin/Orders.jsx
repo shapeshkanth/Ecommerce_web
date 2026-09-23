@@ -2,21 +2,47 @@ import PageTitle from '../components/PageTitle'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { Sidebar } from './Sidebar'
-import { ClipboardList, Edit, Loader2, Trash2 } from 'lucide-react'
+import { ClipboardList, Edit, Loader2, Trash2, X } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
-import { allOrders } from '../features/admin/adminSlice'
+import { allOrders, deleteOrder, removeSuccess } from '../features/admin/adminSlice'
 import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 export const Orders = () => {
 
   const dispatch = useDispatch();
-  const {loading,success,orders,error,orderResultPerPage,orderTotalPages} = useSelector((state)=>state.admin);
+  const {loading,success,orders,error,orderResultPerPage,orderTotalPages,deletingOrders} = useSelector((state)=>state.admin);
   const [currentPage,setCurrentPage]=useState(1);
   useEffect(()=>{
 
     dispatch(allOrders(currentPage))
   },[dispatch,currentPage])
+
+  const handleDelete = (orderId)=>{
+
+      const isConfirmed = window.confirm("Are you sure you want to delete this Order?")
+      if(isConfirmed)
+      {
+        dispatch(deleteOrder(orderId)).then((action) =>{
+
+          if(action.type === "admin/deleteOrder/fulfilled")
+          {
+            toast.success("Order Deleted Successfully", {position: "top-center", autoClose:3000});
+            dispatch(removeSuccess());
+            
+            if(orders.length === 1 && currentPage > 1)
+            {
+              setCurrentPage(currentPage-1);
+            }else{
+              dispatch(allOrders(currentPage));
+            }
+          }
+        })
+      }
+      
+
+  }
 
   return (
     <div className='min-h-screen bg-gray-50 flex flex-col'>
@@ -87,11 +113,26 @@ export const Orders = () => {
                                  <Edit size={18}/>
                               </Link>
                               
-                                <button  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title='Edit Order'>
-                                
-                                     <Trash2 size={18} />
-                                         
-                              </button>  
+                                 {order.orderStatus === "Delivered" ? (
+                                    <button
+                                        disabled={deletingOrders?.[order._id]}
+                                        onClick={() => handleDelete(order._id)}
+                                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                        title="Delete Order"
+                                    >
+                                        {deletingOrders?.[order._id]
+                                            ? <Loader2 size={18} className="animate-spin" />
+                                            : <Trash2 size={18} />
+                                        }
+                                    </button>
+                                    ) : (
+                                    <span
+                                        className="p-2 text-gray-400"
+                                        title="Order cannot be deleted until delivered"
+                                    >
+                                        <Trash2 size={18} className='opacity-25'/>
+                                    </span>
+                                 )}  
                             </div>
                           </td>
                            </tr>

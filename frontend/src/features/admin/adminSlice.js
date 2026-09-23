@@ -118,6 +118,15 @@ try {
 }
 })
 
+export const deleteOrder = createAsyncThunk("admin/deleteOrder",async (orderId,{rejectWithValue})=>{
+    try {
+        const {data} = await axios.delete(`/api/v1/admin/delete/${orderId}`);
+        return data;
+
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Order Deletion failed");
+    }
+})
 
 const adminSlice = createSlice({
     name:"admin",
@@ -136,6 +145,7 @@ const adminSlice = createSlice({
         product:{},
         deleting:{},
         deletingUsers: {},
+        deletingOrders:{},
         user:null,
         orderResultPerPage:5,
         orderTotalPages:0,
@@ -321,6 +331,23 @@ const adminSlice = createSlice({
         }).addCase(allOrders.rejected,(state,action)=>{
             state.loading=false;
             state.error=action.payload?.message || "Failed to fetch all orders by admin.";
+        })
+
+        builder.addCase(deleteOrder.pending,(state,action)=>{
+            const userId = action.meta.arg;
+            state.deletingOrders[userId] = true;
+        }).addCase(deleteOrder.fulfilled,(state,action)=>{
+            const orderId = action.payload.orderId;
+            state.deletingOrders[orderId] = false;
+            state.orders = state.orders.filter(
+                (user) => user._id !== orderId
+            );
+            state.message = action.payload.message;
+
+        }).addCase(deleteOrder.rejected,(state,action)=>{
+            const orderId = action.meta.arg;
+            state.deletingOrders[orderId] = false;     
+            state.error=action.payload?.message || "Order deletion failed";
         })
 
     }

@@ -101,7 +101,8 @@ export const deleteOrder = async (req,res,next)=>{
   await Order.deleteOne({_id:orderId})
   res.json({
         success:true,
-        message:"Order deleted successfully"
+        message:"Order deleted successfully",
+        orderId:orderId
     })
 
 }
