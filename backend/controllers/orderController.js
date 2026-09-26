@@ -123,23 +123,25 @@ export const updateOrder = async (req,res,next)=>{
     order.orderStatus = req.body.status
      if(order.orderStatus==="Delivered")
     {
-        await Promise.all(order.OrderItems.map((item)=>stockUpdate(item.product,item.quantity)))
-        order.deliveryAt=Date.now();
+
+        for (const item of order.OrderItems) {
+
+            const prod = await Product.findById(item.product);
+
+            if (!prod) {
+                return next(new ErrorHandler(400, "Product not found"));
+            }
+
+            prod.stock = prod.stock - Number(item.quantity);
+
+            await prod.save({ validateBeforeSave: false });
+        }
+
+        order.deliveryAt = Date.now();
     }
     await order.save({validateBeforeSave:false})
     res.status(200).json({
         success:true,
         order
     })
-}
-
-async function stockUpdate(ProductId,ProductQuantity) {
-    const product = await Product.findById(ProductId)
-    if(!product)
-    {
-        throw new Error("Product not found")
-    }
-
-    product.stock = product.stock - ProductQuantity
-    await product.save({validateBeforeSave:false})
 }

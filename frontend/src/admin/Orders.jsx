@@ -46,7 +46,7 @@ export const Orders = () => {
 
   return (
     <div className='min-h-screen bg-gray-50 flex flex-col'>
-     <PageTitle title="Admin Dashboard"/>
+     <PageTitle title="Admin Order view"/>
      <Navbar/>
      <main className='flex-1 flex overflow-hidden'>
         <Sidebar/>
@@ -147,6 +147,7 @@ export const Orders = () => {
           </div>
         </div>
      </main>
+      <Footer/>
     </div>
   )
 }

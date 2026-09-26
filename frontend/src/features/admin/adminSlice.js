@@ -128,6 +128,20 @@ export const deleteOrder = createAsyncThunk("admin/deleteOrder",async (orderId,{
     }
 })
 
+//get single user 
+
+export const updateOrder = createAsyncThunk("admin/updateOrderDetails",async ({orderId, status},{rejectWithValue})=>{
+    try {
+        const {data} = await axios.put(`/api/v1/admin/update/${orderId}`,{status});
+        return data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "update user order status failed")
+    }
+
+})
+
+
+
 const adminSlice = createSlice({
     name:"admin",
     initialState:{
@@ -137,6 +151,7 @@ const adminSlice = createSlice({
         productCount:0,
         resultPerPage:0,
         users:[],
+        user:null,
         userCount: 0,
         userResultPerPage: 0,
         userTotalPages: 0,
@@ -348,6 +363,22 @@ const adminSlice = createSlice({
             const orderId = action.meta.arg;
             state.deletingOrders[orderId] = false;     
             state.error=action.payload?.message || "Order deletion failed";
+        })
+
+        builder.addCase(updateOrder.pending,(state)=>{
+            state.error=null;
+            state.loading=true;
+            state.success=false;
+
+        }).addCase(updateOrder.fulfilled,(state,action)=>{
+            state.loading = false;
+            state.order = action.payload.order;
+            state.success = true;
+                  
+        }).addCase(updateOrder.rejected,(state,action)=>{
+            state.loading=false;
+            state.error=action.payload?.message || "update user order status failed";
+
         })
 
     }
