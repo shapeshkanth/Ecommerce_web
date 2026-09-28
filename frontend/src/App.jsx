@@ -30,6 +30,8 @@ import { Users } from './admin/Users';
 import { EditUser } from './admin/EditUser';
 import { Orders } from './admin/Orders';
 import { EditOrder } from './admin/EditOrder';
+import { AllUserReviews } from './admin/AllUserReviews';
+import { DeleteReview } from './admin/DeleteReview';
 
 
 
@@ -76,6 +78,8 @@ dispatch(getProfile())
         <Route path='/admin/editUser/:id' element={<ProtectedRoute element={<EditUser/>} adminOnly={true}/>}/>
         <Route path='/admin/orders' element={<ProtectedRoute element={<Orders/>}  adminOnly={true}/>}/>
         <Route path='/admin/editOrderStatus/:id' element={<ProtectedRoute element={<EditOrder/>} adminOnly={true}/>}/>
+        <Route path='/admin/allUserReview' element={<ProtectedRoute element={<AllUserReviews/>} adminOnly={true}/>}/>
+        <Route path='/admin/review/:id' element={<ProtectedRoute element={<DeleteReview/>} adminOnly={true}/>}/>
 
 
 

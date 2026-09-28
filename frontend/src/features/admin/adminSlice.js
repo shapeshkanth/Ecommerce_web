@@ -140,6 +140,18 @@ export const updateOrder = createAsyncThunk("admin/updateOrderDetails",async ({o
 
 })
 
+//Delete user review
+
+export const deleteUserReview = createAsyncThunk("admin/deleteReview",async ({productId,reviewId},{rejectWithValue})=>{
+    try {
+        const {data} = await axios.delete(`/api/v1/admin/deleteUserReview?productID=${productId}&reviewID=${reviewId}`);
+        return data;
+
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "User Deletion failed");
+    }
+})
+
 
 
 const adminSlice = createSlice({
@@ -164,6 +176,7 @@ const adminSlice = createSlice({
         user:null,
         orderResultPerPage:5,
         orderTotalPages:0,
+        reviewLoading:false,
 
 
         success:false,
@@ -379,6 +392,20 @@ const adminSlice = createSlice({
             state.loading=false;
             state.error=action.payload?.message || "update user order status failed";
 
+        })
+
+        builder.addCase(deleteUserReview.pending,(state,action)=>{
+           state.reviewLoading=true;
+           state.error=null;
+           state.success=false;
+        }).addCase(deleteUserReview.fulfilled,(state,action)=>{
+            state.error=null;
+            state.reviewLoading=false;
+            state.message = action.payload.message;
+
+        }).addCase(deleteUserReview.rejected,(state,action)=>{
+            state.reviewLoading=false;
+            state.error=action.payload?.message || "Review deletion failed";
         })
 
     }

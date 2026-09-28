@@ -74,43 +74,43 @@ useEffect(()=>{
                 <p className='text-gray-500 mt-2'>Update the role and permissions of the selected user</p>
               </div>
                <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-10 px-6 shadow rounded-lg sm:px-10 border border-gray-100">
-           <form  className="space-y-6" onSubmit={submitHandler}>
-              <div className="flex flex-col items-center mb-6">
-                <div className="w-28 h-28 mb-4">
-                   <img src={user?.avatar?.url} alt="" className="w-28 h-28 rounded-full object-cover border-4 border-indigo-100 shadow-sm"/>
-                
-                </div>
-                
-              </div>
+                  <div className="bg-white py-10 px-6 shadow rounded-lg sm:px-10 border border-gray-100">
+                    <form  className="space-y-6" onSubmit={submitHandler}>
+                        <div className="flex flex-col items-center mb-6">
+                          <div className="w-28 h-28 mb-4">
+                            <img src={user?.avatar?.url} alt="" className="w-28 h-28 rounded-full object-cover border-4 border-indigo-100 shadow-sm"/>
+                          
+                          </div>
+                          
+                        </div>
 
-              <div>
-                <label htmlFor="role" className="block text-sm font-semibold text-gray-700 ml-1">User Role</label>
-              
-                    <select type="text" id="role" value={role}  onChange={(e) => setUserRole(e.target.value)} required  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400">
-                     {user?.role==="admin"?( <>
-                       <option value="admin">admin</option>
-                       <option value="user">user</option></>)
-                        : (
-                            <>
-                            <option value="user">user</option>
-                            <option value="admin">admin</option>
-                            </>
-                        )
-                     }
-                    
-                     
-                    </select>
-                
-              </div> 
-              <div className="pt-2">
-                <button disabled={loading} type="submit"  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md shadow-indigo-200 text-sm font-bold disabled:opacity-2 text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]">
-                  {loading ? "Updating..." : "Update Role"}
-                </button>
+                        <div>
+                          <label htmlFor="role" className="block text-sm font-semibold text-gray-700 ml-1">User Role</label>
+                        
+                              <select type="text" id="role" value={role}  onChange={(e) => setUserRole(e.target.value)} required  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-gray-900 placeholder:text-gray-400">
+                              {user?.role==="admin"?( <>
+                                <option value="admin">admin</option>
+                                <option value="user">user</option></>)
+                                  : (
+                                      <>
+                                      <option value="user">user</option>
+                                      <option value="admin">admin</option>
+                                      </>
+                                  )
+                              }
+                              
+                              
+                              </select>
+                          
+                        </div> 
+                        <div className="pt-2">
+                          <button disabled={loading} type="submit"  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md shadow-indigo-200 text-sm font-bold disabled:opacity-2 text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]">
+                            {loading ? "Updating..." : "Update Role"}
+                          </button>
+                        </div>
+                    </form>
+                  </div>
               </div>
-           </form>
-        </div>
-      </div>
 
            </div>
         </main>

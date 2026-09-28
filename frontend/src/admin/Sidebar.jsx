@@ -31,7 +31,7 @@ export const Sidebar = () => {
     },
     {
         title:"All Reviews",
-        path:"/admin/reviews",
+        path:"/admin/allUserReview",
         icon:<MessageSquare size={20}/>
     },
 ];
