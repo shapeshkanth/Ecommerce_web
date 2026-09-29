@@ -1,8 +1,13 @@
 import { ClipboardList, LayoutDashboard, LogOut, MessageSquare, PlusCircle, ShoppingBag, Users } from 'lucide-react';
 import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { logout } from '../features/user/userSlice';
 
 export const Sidebar = () => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const menuItems=[{
         title:"dashboard",
@@ -35,6 +40,11 @@ export const Sidebar = () => {
         icon:<MessageSquare size={20}/>
     },
 ];
+
+ const handleLogout=()=>{
+       dispatch(logout())
+       navigate("/login")
+    }
   return (
     <div className='w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-64px)] hidden md:block shrink-0'>
         <div className='flex flex-col h-full py-6'>
@@ -59,10 +69,10 @@ export const Sidebar = () => {
 
             </nav>
             <div className='px-3 mt-auto border-t border-gray-100 pt-4'>
-                <NavLink className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-all duration-200">
+                <button onClick={()=>handleLogout()} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-all duration-200">
                     <LogOut size={20}/>
                     Logout
-                </NavLink>
+                </button>
             </div>
 
         </div>
