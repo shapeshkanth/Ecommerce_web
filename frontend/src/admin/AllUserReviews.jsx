@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar"
 import PageTitle from "../components/PageTitle"
 import { Sidebar } from "./Sidebar"
 import Footer from '../components/Footer'
-import { ChevronLeft, Edit, Star, Trash2 } from "lucide-react"
+import { ChevronLeft, ChevronRight, Edit, Star, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -13,6 +13,7 @@ export const AllUserReviews = () => {
   const dispatch = useDispatch();
   const [currentPage,setCurrentPage]=useState(1);
 
+    const totalPages=Math.ceil(productCount/resultPerPage);
    useEffect(()=>{
      dispatch(adminGetProducts(currentPage));
     },[dispatch,currentPage])
@@ -95,6 +96,26 @@ export const AllUserReviews = () => {
                         </tbody>
                     </table>
                     </div>
+
+                     <div className='flex flex-col sm:flex-row items-center justify-between px-8 py-6 bg-gray-50/50 border-t border-gray-100 gap-4'>
+                  <p className='text-xs text-gray-500 font-medium order-2 sm:order-1'>
+                    Showing <span className='font-bold text-gray-700'>{products.length}</span> of <span className='font-bold text-gray-700'>{productCount}</span>
+                  </p>
+                  <div className='flex items-center gap-3 gap-3 order sm:order-2'>
+                    <button disabled={currentPage===1} onClick={()=>{setCurrentPage(currentPage-1)}} className='flex items-center gap-1.5 px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 text-xs font-bold hover:bg-gray-50 hover:border-indigo-200 disabled:opacity-5 disabled:cursor-not-allowed transition-all shadow-sm active:scale-95'> 
+                      <ChevronLeft size={14}/> 
+                      Previeus
+                    </button>
+                    <div className='flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl shadow-sm'>
+                      <span>{currentPage}/{totalPages}</span>
+                     
+                      </div>
+                    <button disabled={currentPage >= totalPages} onClick={()=>setCurrentPage(currentPage+1)} className='flex items-center gap-1.5 px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 text-xs font-bold hover:bg-gray-50 hover:border-indigo-200 disabled:opacity-5 disabled:cursor-not-allowed transition-all shadow-sm active:scale-95'>
+                      Next
+                      <ChevronRight size={14}/>
+                    </button>
+                  </div>
+                </div>
                 </div>
 
         </div>
